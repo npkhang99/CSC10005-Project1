@@ -18,11 +18,23 @@ binary binary::_zero() const {
 }
 
 binary binary::_shr(const int& r) const {
-    binary ans(bits);
+    std::bitset<_BINARY_LENGTH> ans(bits);
     bool left_most = bits[_BINARY_LENGTH - 1];
     ans = ans >> r;
-    ans.set(_BINARY_LENGTH - 1, left_most);
-    return ans;
+    if (left_most == 1) {
+        for (int i = 0; i < r; i++) {
+            ans.set(_BINARY_LENGTH - 1 - i, left_most);
+        }
+    }
+    return binary(ans);
+}
+
+binary binary::_twos_complement() const {
+    return ~(*this) + _one();
+}
+
+bool binary::_msb() const {
+    return bits.test(_BINARY_LENGTH - 1);
 }
 
 binary::binary() {
@@ -112,14 +124,14 @@ binary binary::operator+(const binary& rhs) const {
 
 binary binary::operator-(const binary& rhs) const {
     binary ans(bits);
-    ans = ans + (~rhs + _one());
+    ans = ans + rhs._twos_complement();
     return ans;
 }
 
 binary binary::operator*(const binary& rhs) const {
     std::bitset<_BINARY_LENGTH + 1> qq(rhs.to_string() + "0");
     binary a;
-    for (int k = rhs.to_string().size(); k >= 0; k--) {
+    for (int k = 0; k < _BINARY_LENGTH; k++) {
         if (qq.to_string().substr(_BINARY_LENGTH - 1, 2) == "10") {
             a = a - *this;
         }
@@ -133,13 +145,52 @@ binary binary::operator*(const binary& rhs) const {
     }
 
     std::bitset<2 * _BINARY_LENGTH + 1> ans(a.to_string() + qq.to_string());
-    return binary(ans.to_string().substr(_BINARY_LENGTH + 1, _BINARY_LENGTH));
+    return binary(ans.to_string().substr(_BINARY_LENGTH, _BINARY_LENGTH));
+}
+
+std::pair<binary, binary> binary::divmod(const binary& rhs) const {
+    binary q(bits);
+    binary m(rhs);
+    binary a;
+
+    int quotient_sign = _msb() + rhs._msb();
+
+    if (q._msb()) {
+        q = q._twos_complement();
+    }
+
+    if (m._msb()) {
+        m = m._twos_complement();
+    }
+
+    for (int i = 0; i < _BINARY_LENGTH; i++) {
+        a = a << 1;
+        a.set(0, q._msb());
+        q = q << 1;
+
+        a = a - m;
+        if (a._msb()) {
+            q.set(0, 0);
+            a = a + m;
+        }
+        else {
+            q.set(0, 1);
+        }
+    }
+
+    if (quotient_sign == 1) {
+        q = q._twos_complement();
+    }
+
+    return std::make_pair(q, a);
 }
 
 binary binary::operator/(const binary& rhs) const {
-    binary ans(bits);
+    return divmod(rhs).first;
+}
 
-    return ans;
+binary binary::operator%(const binary& rhs) const {
+    return divmod(rhs).second;
 }
 
 binary binary::operator|(const binary& rhs) const {
@@ -159,7 +210,7 @@ binary binary::operator~() const {
 }
 
 binary binary::operator>>(const int& r) const {
-    return binary(bits >> r);
+    return _shr(r);
 }
 
 binary binary::operator<<(const int& r) const {

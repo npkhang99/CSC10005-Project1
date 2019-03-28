@@ -7,6 +7,7 @@
 #include <bitset>
 #include <string>
 #include <cmath>
+#include <functional>
 
 class binary {
 private:
@@ -18,8 +19,14 @@ private:
     binary _one() const;
     binary _zero() const;
 
-    // arithmetic right / left shift
+    // arithmetic right shift
     binary _shr(const int&) const;
+
+    // get two's complement
+    binary _twos_complement() const;
+    
+    // returns the value of the most significant bit
+    bool _msb() const;
 
 public:
     binary();
@@ -47,6 +54,9 @@ public:
     binary operator-(const binary&) const;
     binary operator*(const binary&) const;
     binary operator/(const binary&) const;
+    binary operator%(const binary&) const;
+
+    std::pair<binary, binary> divmod(const binary&) const;
     
     // bit-wise operators
     binary operator|(const binary&) const;
@@ -63,5 +73,11 @@ public:
     // just for debugging
     friend std::ostream& operator<<(std::ostream& os, const binary&);
 };
+
+#ifdef _LOCAL
+
+#include "binary.cpp"
+
+#endif
 
 #endif // _BINARY_H_
