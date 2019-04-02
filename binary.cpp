@@ -29,7 +29,7 @@ binary binary::_shr(const int& r) const {
     return binary(ans);
 }
 
-binary binary::_twos_complement() const {
+binary binary::twos_complement() const {
     return ~(*this) + _one();
 }
 
@@ -124,7 +124,7 @@ binary binary::operator+(const binary& rhs) const {
 
 binary binary::operator-(const binary& rhs) const {
     binary ans(bits);
-    ans = ans + rhs._twos_complement();
+    ans = ans + rhs.twos_complement();
     return ans;
 }
 
@@ -156,11 +156,11 @@ std::pair<binary, binary> binary::divmod(const binary& rhs) const {
     int quotient_sign = _msb() + rhs._msb();
 
     if (q._msb()) {
-        q = q._twos_complement();
+        q = q.twos_complement();
     }
 
     if (m._msb()) {
-        m = m._twos_complement();
+        m = m.twos_complement();
     }
 
     for (int i = 0; i < _BINARY_LENGTH; i++) {
@@ -179,7 +179,7 @@ std::pair<binary, binary> binary::divmod(const binary& rhs) const {
     }
 
     if (quotient_sign == 1) {
-        q = q._twos_complement();
+        q = q.twos_complement();
     }
 
     return std::make_pair(q, a);

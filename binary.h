@@ -21,9 +21,6 @@ private:
 
     // arithmetic right shift
     binary _shr(const int&) const;
-
-    // get two's complement
-    binary _twos_complement() const;
     
     // returns the value of the most significant bit
     bool _msb() const;
@@ -34,6 +31,9 @@ public:
     binary(const std::string&);
 
     std::string to_string() const;
+
+    // get two's complement
+    binary twos_complement() const;
 
     // get / set bit at a given position
     bool get(const size_t&) const;
