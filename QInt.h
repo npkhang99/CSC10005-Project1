@@ -4,11 +4,12 @@
 #include <sstream>
 #include <algorithm>
 
+#include "config.h"
 #include "binary.h"
 
 class QInt {
 private:
-	binary n;
+	binary<_BINARY_LENGTH> n;
 
 	class _utilities {
 	public:

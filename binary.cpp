@@ -1,76 +1,90 @@
 #include "binary.h"
 
-binary::binary(const std::bitset<_BINARY_LENGTH>& o) {
+template <size_t N>
+binary<N>::binary(const std::bitset<N>& o) {
     bits = o;
 }
 
-binary binary::_one() const {
+template <size_t N>
+binary<N> binary<N>::_one() const {
     std::string one = "";
-    for (int i = 0; i < _BINARY_LENGTH - 1; i++) {
+    for (int i = 0; i < N - 1; i++) {
         one.push_back('0');
     }
     one.push_back('1');
     return binary(one);
 }
 
-binary binary::_zero() const {
+template <size_t N>
+binary<N> binary<N>::_zero() const {
     return binary();
 }
 
-binary binary::_shr(const int& r) const {
-    std::bitset<_BINARY_LENGTH> ans(bits);
-    bool left_most = bits[_BINARY_LENGTH - 1];
+template <size_t N>
+binary<N> binary<N>::_shr(const int& r) const {
+    std::bitset<N> ans(bits);
+    bool left_most = bits[N - 1];
     ans = ans >> r;
     if (left_most == 1) {
         for (int i = 0; i < r; i++) {
-            ans.set(_BINARY_LENGTH - 1 - i, left_most);
+            ans.set(N - 1 - i, left_most);
         }
     }
     return binary(ans);
 }
 
-binary binary::twos_complement() const {
+template <size_t N>
+binary<N> binary<N>::twos_complement() const {
     return ~(*this) + _one();
 }
 
-bool binary::_msb() const {
-    return bits.test(_BINARY_LENGTH - 1);
+template <size_t N>
+bool binary<N>::_msb() const {
+    return bits.test(N - 1);
 }
 
-binary::binary() {
-    bits = std::bitset<_BINARY_LENGTH>(0);
+template <size_t N>
+binary<N>::binary() {
+    bits = std::bitset<N>(0);
 }
 
-binary::binary(const binary& o) {
+template <size_t N>
+binary<N>::binary(const binary& o) {
     bits = o.bits;
 }
 
-binary::binary(const std::string& value) {
-    bits = std::bitset<_BINARY_LENGTH>(value);
+template <size_t N>
+binary<N>::binary(const std::string& value) {
+    bits = std::bitset<N>(value);
 }
 
-std::string binary::to_string() const {
+template <size_t N>
+std::string binary<N>::to_string() const {
     return bits.to_string();
 }
 
-bool binary::get(const size_t& pos) const {
+template <size_t N>
+bool binary<N>::get(const size_t& pos) const {
     return bits.test(pos);
 }
 
-binary binary::set(const size_t& pos, const bool& value) {
+template <size_t N>
+binary<N> binary<N>::set(const size_t& pos, const bool& value) {
     bits.set(pos, value);
     return *this;
 }
 
-binary& binary::operator=(const binary& rhs) {
+template <size_t N>
+binary<N>& binary<N>::operator=(const binary<N>& rhs) {
     bits = rhs.bits;
     return *this;
 }
 
-bool binary::operator>(const binary& rhs) {
+template <size_t N>
+bool binary<N>::operator>(const binary<N>& rhs) {
     bool answer = false;
-    if (bits[_BINARY_LENGTH - 1] == rhs.get(_BINARY_LENGTH - 1)) {
-        for (int i = _BINARY_LENGTH - 1; i > 0; i--) {
+    if (bits[N - 1] == rhs.get(N - 1)) {
+        for (int i = N - 1; i > 0; i--) {
             if (bits[i] > rhs.bits[i]) {
                 answer = true;
                 break;
@@ -78,15 +92,16 @@ bool binary::operator>(const binary& rhs) {
         }
     }
     else {
-        answer = bits[_BINARY_LENGTH - 1] < rhs.get(_BINARY_LENGTH - 1) ;
+        answer = bits[N - 1] < rhs.get(N - 1) ;
     }
     return answer;
 }
 
-bool binary::operator<(const binary& rhs) {
+template <size_t N>
+bool binary<N>::operator<(const binary<N>& rhs) {
     bool answer = false;
-    if (bits[_BINARY_LENGTH - 1] == rhs.get(_BINARY_LENGTH - 1)) {
-        for (int i = _BINARY_LENGTH - 1; i > 0; i--) {
+    if (bits[N - 1] == rhs.get(N - 1)) {
+        for (int i = N - 1; i > 0; i--) {
             if (bits[i] < rhs.bits[i]) {
                 answer = true;
                 break;
@@ -94,27 +109,31 @@ bool binary::operator<(const binary& rhs) {
         }
     }
     else {
-        answer = bits[_BINARY_LENGTH - 1] > rhs.get(_BINARY_LENGTH - 1) ;
+        answer = bits[N - 1] > rhs.get(N - 1) ;
     }
     return answer;
 }
 
-bool binary::operator>=(const binary& rhs) {
+template <size_t N>
+bool binary<N>::operator>=(const binary<N>& rhs) {
     return !operator<(rhs);
 }
 
-bool binary::operator<=(const binary& rhs) {
+template <size_t N>
+bool binary<N>::operator<=(const binary<N>& rhs) {
     return !operator>(rhs);
 }
 
-bool binary::operator==(const binary& rhs) {
+template <size_t N>
+bool binary<N>::operator==(const binary<N>& rhs) {
     return !operator>(rhs) && !operator<(rhs);
 }
 
-binary binary::operator+(const binary& rhs) const {
-    binary ans(bits);
+template <size_t N>
+binary<N> binary<N>::operator+(const binary<N>& rhs) const {
+    binary<N> ans(bits);
     int remainder = 0;
-    for (int i = 0; i < _BINARY_LENGTH; i++) {
+    for (int i = 0; i < N; i++) {
         int sum = rhs.get(i) + bits[i] + remainder;
         remainder = sum / 2;
         ans.set(i, sum % 2);
@@ -122,36 +141,39 @@ binary binary::operator+(const binary& rhs) const {
     return ans;
 }
 
-binary binary::operator-(const binary& rhs) const {
+template <size_t N>
+binary<N> binary<N>::operator-(const binary<N>& rhs) const {
     binary ans(bits);
     ans = ans + rhs.twos_complement();
     return ans;
 }
 
-binary binary::operator*(const binary& rhs) const {
-    std::bitset<_BINARY_LENGTH + 1> qq(rhs.to_string() + "0");
+template <size_t N>
+binary<N> binary<N>::operator*(const binary<N>& rhs) const {
+    std::bitset<N + 1> qq(rhs.to_string() + "0");
     binary a;
-    for (int k = 0; k < _BINARY_LENGTH; k++) {
-        if (qq.to_string().substr(_BINARY_LENGTH - 1, 2) == "10") {
+    for (int k = 0; k < N; k++) {
+        if (qq.to_string().substr(N - 1, 2) == "10") {
             a = a - *this;
         }
-        else if (qq.to_string().substr(_BINARY_LENGTH - 1, 2) == "01") {
+        else if (qq.to_string().substr(N - 1, 2) == "01") {
             a = a + *this;
         }
 
         qq = qq >> 1;
-        qq.set(_BINARY_LENGTH, a.get(0));
+        qq.set(N, a.get(0));
         a = a._shr(1);
     }
 
-    std::bitset<2 * _BINARY_LENGTH + 1> ans(a.to_string() + qq.to_string());
-    return binary(ans.to_string().substr(_BINARY_LENGTH, _BINARY_LENGTH));
+    std::bitset<2 * N + 1> ans(a.to_string() + qq.to_string());
+    return binary(ans.to_string().substr(N, N));
 }
 
-std::pair<binary, binary> binary::divmod(const binary& rhs) const {
-    binary q(bits);
-    binary m(rhs);
-    binary a;
+template <size_t N>
+std::pair<binary<N>, binary<N>> binary<N>::divmod(const binary<N>& rhs) const {
+    binary<N> q(bits);
+    binary<N> m(rhs);
+    binary<N> a;
 
     int quotient_sign = _msb() + rhs._msb();
 
@@ -163,7 +185,7 @@ std::pair<binary, binary> binary::divmod(const binary& rhs) const {
         m = m.twos_complement();
     }
 
-    for (int i = 0; i < _BINARY_LENGTH; i++) {
+    for (int i = 0; i < N; i++) {
         a = a << 1;
         a.set(0, q._msb());
         q = q << 1;
@@ -185,39 +207,48 @@ std::pair<binary, binary> binary::divmod(const binary& rhs) const {
     return std::make_pair(q, a);
 }
 
-binary binary::operator/(const binary& rhs) const {
+template <size_t N>
+binary<N> binary<N>::operator/(const binary<N>& rhs) const {
     return divmod(rhs).first;
 }
 
-binary binary::operator%(const binary& rhs) const {
+template <size_t N>
+binary<N> binary<N>::operator%(const binary<N>& rhs) const {
     return divmod(rhs).second;
 }
 
-binary binary::operator|(const binary& rhs) const {
-    return binary(bits | rhs.bits);
+template <size_t N>
+binary<N> binary<N>::operator|(const binary<N>& rhs) const {
+    return binary<N>(bits | rhs.bits);
 }
 
-binary binary::operator&(const binary& rhs) const {
-    return binary(bits & rhs.bits);
+template <size_t N>
+binary<N> binary<N>::operator&(const binary<N>& rhs) const {
+    return binary<N>(bits & rhs.bits);
 }
 
-binary binary::operator^(const binary& rhs) const {
-    return binary(bits ^ rhs.bits);
+template <size_t N>
+binary<N> binary<N>::operator^(const binary<N>& rhs) const {
+    return binary<N>(bits ^ rhs.bits);
 }
 
-binary binary::operator~() const {
-    return binary(~bits);
+template <size_t N>
+binary<N> binary<N>::operator~() const {
+    return binary<N>(~bits);
 }
 
-binary binary::operator>>(const int& r) const {
+template <size_t N>
+binary<N> binary<N>::operator>>(const int& r) const {
     return _shr(r);
 }
 
-binary binary::operator<<(const int& r) const {
-    return binary(bits << r);
+template <size_t N>
+binary<N> binary<N>::operator<<(const int& r) const {
+    return binary<N>(bits << r);
 }
 
-std::ostream& operator<<(std::ostream& os, const binary& rhs) {
+template <size_t N>
+std::ostream& operator<<(std::ostream& os, const binary<N>& rhs) {
     os << rhs.to_string();
     return os;
 }

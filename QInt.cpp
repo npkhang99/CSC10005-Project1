@@ -93,19 +93,19 @@ QInt::QInt() {
 
 void QInt::scan_QInt(const std::string& value, const int& base) {
 	if (base == 2) {
-		n = binary(std::bitset<_BINARY_LENGTH>(value).to_string());
+		n = binary<_BINARY_LENGTH>(std::bitset<_BINARY_LENGTH>(value).to_string());
 	}
 	else if (base == 10) {
 		if (value[0] == '-') {
 			std::string tmp = value;
 			tmp = tmp.erase(0, 1);
-			n = binary(std::bitset<_BINARY_LENGTH>(dec_to_bin(tmp)).to_string()).twos_complement();
+			n = binary<_BINARY_LENGTH>(std::bitset<_BINARY_LENGTH>(dec_to_bin(tmp)).to_string()).twos_complement();
 		}
 		else
-			n = binary(std::bitset<_BINARY_LENGTH>(dec_to_bin(value)).to_string());
+			n = binary<_BINARY_LENGTH>(std::bitset<_BINARY_LENGTH>(dec_to_bin(value)).to_string());
 	}
 	else {
-		n = binary(std::bitset<_BINARY_LENGTH>(hex_to_bin(value)).to_string());
+		n = binary<_BINARY_LENGTH>(std::bitset<_BINARY_LENGTH>(hex_to_bin(value)).to_string());
 	}
 }
 
