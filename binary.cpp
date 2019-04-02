@@ -55,7 +55,16 @@ binary<N>::binary(const binary& o) {
 
 template <size_t N>
 binary<N>::binary(const std::string& value) {
-    bits = std::bitset<N>(value);
+    std::string temp = value;
+    while (value.length() < N) {
+        temp = '0' + temp;
+    }
+
+    if (value.length() > N) {
+        temp = std::string(value.end() - N, value.end());
+    }
+
+    bits = std::bitset<N>(temp);
 }
 
 template <size_t N>

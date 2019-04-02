@@ -1,20 +1,21 @@
 #if !defined(_FLOATING_BINARY_H_)
 #define _FLOATING_BINARY_H_
 
-#include "config.h"
-#include "binary.h"
-#include "QInt.h"
-
 #include <iostream>
 #include <bitset>
 #include <string>
 
+#include "config.h"
+#include "binary.h"
+#include "QInt.h"
+
+template <size_t N>
 class floating_binary {
 private:
-    std::bitset<_BINARY_LENGTH> bits;
+    std::bitset<N> bits;
 
     std::string _padding(std::string, const int&) const;
-    void _align_radix_point(binary&, binary&, const int&) const;
+    void _align_radix_point(binary<N>&, binary<N>&, const int&) const;
 
 public:
     floating_binary();

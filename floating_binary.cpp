@@ -1,40 +1,47 @@
 #include "floating_binary.h"
 
-std::string floating_binary::_padding(std::string st, const int& length) const {
+template <size_t N>
+std::string floating_binary<N>::_padding(std::string st, const int& length) const {
     while (st.length() < length) {
         st = '0' + st;
     }
     return st;
 }
 
-floating_binary::floating_binary(const std::string &st) {
+template <size_t N>
+floating_binary<N>::floating_binary(const std::string &st) {
     std::string temp = _padding(st, _BINARY_LENGTH);
     for (int i = 0; i < _BINARY_LENGTH; i++) {
         bits[i] = (temp[_BINARY_LENGTH - i] == '1');
     }
 }
 
-void floating_binary::_align_radix_point(binary& exp, binary& mantissa, const int& delta) const {
+template <size_t N>
+void floating_binary<N>::_align_radix_point(binary<N>& exp, binary<N>& mantissa, const int& delta) const {
     
 }
 
-std::string floating_binary::to_string() const {
+template <size_t N>
+std::string floating_binary<N>::to_string() const {
     return bits.to_string();
 }
 
-bool floating_binary::get(const size_t& pos) const {
+template <size_t N>
+bool floating_binary<N>::get(const size_t& pos) const {
     return bits.test(pos);
 }
 
-floating_binary floating_binary::set(const size_t& pos, const bool& value) {
+template <size_t N>
+floating_binary<N> floating_binary<N>::set(const size_t& pos, const bool& value) {
     bits.set(pos, value);
     return *this;
 }
 
-floating_binary floating_binary::operator+(const floating_binary& rhs) const {
+template <size_t N>
+floating_binary<N> floating_binary<N>::operator+(const floating_binary<N>& rhs) const {
     std::string rhs_st = rhs.to_string();
-    binary exp_lhs = binary(_padding(to_string().substr(1, 15), _BINARY_LENGTH));
-    binary mantissa_lhs = binary('1' + _padding(to_string().substr(16, 112), _BINARY_LENGTH - 1));
+    binary<N> exp_lhs = binary(_padding(to_string().substr(1, 15), _BINARY_LENGTH));
+    binary<N> mantissa_lhs = binary('1' + _padding(to_string().substr(16, 112), _BINARY_LENGTH - 1));
 
     binary exp_rhs = binary(rhs._padding(to_string().substr(1, 15), _BINARY_LENGTH));
     binary mantissa_rhs = binary('1' + rhs._padding(to_string().substr(16, 112), _BINARY_LENGTH - 1));
@@ -47,5 +54,5 @@ floating_binary floating_binary::operator+(const floating_binary& rhs) const {
         _align_radix_point(exp_lhs, mantissa_lhs, std::bitset<_BINARY_LENGTH>((exp_rhs - exp_lhs).to_string()).to_ulong());
     }
 
-    
+
 }
