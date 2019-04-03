@@ -28,6 +28,7 @@ private:
 
 public:
     binary();
+    binary(const int&);
     binary(const binary<N>&);
     binary(const std::string&);
 
@@ -44,11 +45,12 @@ public:
     binary<N>& operator=(const binary<N>&);
 
     // this vs that, FIGHT!
-    bool operator>(const binary<N>&);
-    bool operator<(const binary<N>&);
-    bool operator<=(const binary<N>&);
-    bool operator>=(const binary<N>&);
-    bool operator==(const binary<N>&);
+    bool operator>(const binary<N>&) const;
+    bool operator<(const binary<N>&) const;
+    bool operator<=(const binary<N>&) const;
+    bool operator>=(const binary<N>&) const;
+    bool operator==(const binary<N>&) const;
+    bool operator!=(const binary<N>&) const;
 
     // just 3rd grade math
     binary<N> operator+(const binary<N>&) const;

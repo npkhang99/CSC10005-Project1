@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "QInt.h"
+#include "floating_binary.h"
 
 bool is_nan(const string& st) {
     for (int i = 0; i < st.length(); i++) {
@@ -15,35 +16,8 @@ bool is_nan(const string& st) {
 }
 
 int main() {
-    QInt a, b;
-    int from_base, to_base;
-    string st;
-    cin >> from_base >> to_base >> st;
-    
-    if (from_base == 2) {
-        if (to_base == 10) {
-            cout << QInt::bin_to_dec(st) << endl;
-        }
-        else {
-            cout << a.bin_to_hex(st) << endl;
-        }
-    }
-    else if (from_base == 10) {
-        if (to_base == 2) {
-            cout << QInt::dec_to_bin(st) << endl;
-        }
-        else {
-            cout << QInt::dec_to_hex(st) << endl;
-        }
-    }
-    else {
-        if (to_base == 2) {
-            cout << QInt::hex_to_bin(st) << endl;
-        }
-        else {
-            cout << QInt::hex_to_dec(st) << endl;
-        }
-    }
-
+    floating_binary a("01000001000100000000001000001100");
+    floating_binary b("01000001001011111111110111110100");
+    cout << (a + b).to_string() << endl;
     return 0;
 }

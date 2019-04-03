@@ -87,8 +87,16 @@ std::string QInt::_utilities::_add_string(std::string a, std::string b) {
 	return res;
 }
 
-QInt::QInt() {
+QInt::QInt(const binary<_BINARY_LENGTH>& o) {
+	n = o;
+}
 
+QInt::QInt() {
+	n = binary<_BINARY_LENGTH>(0);
+}
+
+QInt::QInt(const std::string& value, const int& base) {
+	scan_QInt(value, base);
 }
 
 void QInt::scan_QInt(const std::string& value, const int& base) {
@@ -189,4 +197,87 @@ std::string QInt::hex_to_bin(std::string value) {
 
 std::string QInt::hex_to_dec(std::string value) {
 	return std::bitset<_BINARY_LENGTH>(bin_to_dec(hex_to_bin(value))).to_string();
+}
+
+// wrapper functions
+
+QInt& QInt::operator=(const QInt& rhs) {
+	n = rhs.n;
+	return *this;
+}
+
+bool QInt::operator>(const QInt& rhs) const {
+	return n > rhs.n;
+}
+
+bool QInt::operator<(const QInt& rhs) const {
+	return n < rhs.n;
+}
+
+bool QInt::operator<=(const QInt& rhs) const {
+	return n <= rhs.n;
+}
+
+bool QInt::operator>=(const QInt& rhs) const {
+	return n >= rhs.n;
+}
+
+bool QInt::operator==(const QInt& rhs) const {
+	return n == rhs.n;
+}
+
+bool QInt::operator!=(const QInt& rhs) const {
+	return n != rhs.n;
+}
+
+QInt QInt::operator+(const QInt& rhs) const {
+	return n + rhs.n;
+}
+
+QInt QInt::operator-(const QInt& rhs) const {
+	return n - rhs.n;
+}
+
+QInt QInt::operator*(const QInt& rhs) const {
+	return n * rhs.n;
+}
+
+QInt QInt::operator/(const QInt& rhs) const {
+	return n / rhs.n;
+}
+
+QInt QInt::operator%(const QInt& rhs) const {
+	return n % rhs.n;
+}
+
+QInt QInt::operator|(const QInt& rhs) const {
+	return n | rhs.n;
+}
+
+QInt QInt::operator&(const QInt& rhs) const {
+	return n & rhs.n;
+}
+
+QInt QInt::operator^(const QInt& rhs) const {
+	return n ^ rhs.n;
+}
+
+QInt QInt::operator~() const {
+	return ~n;
+}
+
+QInt QInt::operator>>(const int& r) const {
+	return n >> r;
+}
+
+QInt QInt::operator<<(const int& r) const {
+	return n << r;
+}
+
+QInt QInt::rol(const int& r) const {
+	return n.rol(r);
+}
+
+QInt QInt::ror(const int& r) const {
+	return n.ror(r);
 }

@@ -4,18 +4,18 @@
 #include <iostream>
 #include <bitset>
 #include <string>
+#include <cassert>
 
 #include "config.h"
 #include "binary.h"
 #include "QInt.h"
 
-template <size_t N>
 class floating_binary {
 private:
-    std::bitset<N> bits;
+    std::bitset<_FP_LENGTH> bits;
 
     std::string _padding(std::string, const int&) const;
-    void _align_radix_point(binary<N>&, binary<N>&, const int&) const;
+    void _align_radix_point(binary<_FP_EXPONENT + 1>&, binary<_FP_MANTISSA + 1>&, const unsigned long long&) const;
 
 public:
     floating_binary();
@@ -26,6 +26,8 @@ public:
     // get / set bit at a given position
     bool get(const size_t&) const;
     floating_binary set(const size_t&, const bool&);
+
+    floating_binary& operator=(const floating_binary&);
 
     // just 3rd grade math
     floating_binary operator+(const floating_binary&) const;

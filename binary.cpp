@@ -49,6 +49,11 @@ binary<N>::binary() {
 }
 
 template <size_t N>
+binary<N>::binary(const int& value) {
+    bits = std::bitset<N>(value);
+}
+
+template <size_t N>
 binary<N>::binary(const binary& o) {
     bits = o.bits;
 }
@@ -90,52 +95,47 @@ binary<N>& binary<N>::operator=(const binary<N>& rhs) {
 }
 
 template <size_t N>
-bool binary<N>::operator>(const binary<N>& rhs) {
-    bool answer = false;
+bool binary<N>::operator>(const binary<N>& rhs) const {
+    bool answer;
     if (bits[N - 1] == rhs.get(N - 1)) {
-        for (int i = N - 1; i > 0; i--) {
-            if (bits[i] > rhs.bits[i]) {
-                answer = true;
-                break;
-            }
-        }
+        answer = to_string() > rhs.to_string();
     }
     else {
-        answer = bits[N - 1] < rhs.get(N - 1) ;
+        answer = bits[N - 1] < rhs.get(N - 1);
     }
     return answer;
 }
 
 template <size_t N>
-bool binary<N>::operator<(const binary<N>& rhs) {
+bool binary<N>::operator<(const binary<N>& rhs) const {
     bool answer = false;
     if (bits[N - 1] == rhs.get(N - 1)) {
-        for (int i = N - 1; i > 0; i--) {
-            if (bits[i] < rhs.bits[i]) {
-                answer = true;
-                break;
-            }
-        }
+        answer = to_string() < rhs.to_string();
     }
     else {
-        answer = bits[N - 1] > rhs.get(N - 1) ;
+        answer = bits[N - 1] > rhs.get(N - 1);
     }
     return answer;
 }
 
 template <size_t N>
-bool binary<N>::operator>=(const binary<N>& rhs) {
+bool binary<N>::operator>=(const binary<N>& rhs) const {
     return !operator<(rhs);
 }
 
 template <size_t N>
-bool binary<N>::operator<=(const binary<N>& rhs) {
+bool binary<N>::operator<=(const binary<N>& rhs) const {
     return !operator>(rhs);
 }
 
 template <size_t N>
-bool binary<N>::operator==(const binary<N>& rhs) {
+bool binary<N>::operator==(const binary<N>& rhs) const {
     return !operator>(rhs) && !operator<(rhs);
+}
+
+template <size_t N>
+bool binary<N>::operator!=(const binary<N>& rhs) const {
+    return !operator==(rhs);
 }
 
 template <size_t N>
@@ -143,7 +143,7 @@ binary<N> binary<N>::operator+(const binary<N>& rhs) const {
     binary<N> ans(bits);
     int remainder = 0;
     for (int i = 0; i < N; i++) {
-        int sum = rhs.get(i) + bits[i] + remainder;
+        int sum = (int) rhs.get(i) + (int) bits[i] + (int) remainder;
         remainder = sum / 2;
         ans.set(i, sum % 2);
     }
