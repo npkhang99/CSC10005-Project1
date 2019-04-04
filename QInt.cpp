@@ -239,7 +239,7 @@ QInt QInt::operator-(const QInt& rhs) const {
 }
 
 QInt QInt::operator*(const QInt& rhs) const {
-	return n * rhs.n;
+	return QInt((n * rhs.n).to_string().substr(_BINARY_LENGTH, _BINARY_LENGTH));
 }
 
 QInt QInt::operator/(const QInt& rhs) const {

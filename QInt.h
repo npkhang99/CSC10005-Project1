@@ -40,7 +40,6 @@ public:
 	static std::string hex_to_dec(std::string);
 
 	// wrapper functions
-
     QInt& operator=(const QInt&);
 
     bool operator>(const QInt&) const;

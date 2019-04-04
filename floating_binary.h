@@ -14,7 +14,7 @@ class floating_binary {
 private:
     std::bitset<_FP_LENGTH> bits;
 
-    std::string _padding(std::string, const int&) const;
+    std::string _mantissa_padding(std::string, const int&) const;
     void _align_radix_point(binary<_FP_EXPONENT + 1>&, binary<_FP_MANTISSA + 1>&, const unsigned long long&) const;
 
 public:

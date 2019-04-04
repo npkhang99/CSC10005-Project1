@@ -39,6 +39,29 @@ binary<N> binary<N>::twos_complement() const {
 }
 
 template <size_t N>
+binary<2 * N + 1> binary<N>::unsigned_multiply(const binary<N>& rhs) const {
+    binary<N + 1> m('0' + bits.to_string());
+    binary<N> q(rhs);
+    binary<1 + N> ca;
+    binary<1 + N> a;
+
+    for (int i = 0; i < N; i++) {
+        if (q.get(0) == 1) {
+            ca = a + m;
+        }
+
+        q = q >> 1;
+        q.set(N - 1, ca.get(0));
+        ca = ca >> 1;
+        ca.set(N, 0);
+
+        a = binary<N + 1>('0' + ca.to_string().substr(1, N));
+    }
+
+    return binary<2 * N + 1>(ca.to_string() + q.to_string());
+}
+
+template <size_t N>
 bool binary<N>::_msb() const {
     return bits.test(N - 1);
 }
@@ -60,16 +83,7 @@ binary<N>::binary(const binary& o) {
 
 template <size_t N>
 binary<N>::binary(const std::string& value) {
-    std::string temp = value;
-    while (value.length() < N) {
-        temp = '0' + temp;
-    }
-
-    if (value.length() > N) {
-        temp = std::string(value.end() - N, value.end());
-    }
-
-    bits = std::bitset<N>(temp);
+    bits = std::bitset<N>(value);
 }
 
 template <size_t N>
@@ -152,15 +166,15 @@ binary<N> binary<N>::operator+(const binary<N>& rhs) const {
 
 template <size_t N>
 binary<N> binary<N>::operator-(const binary<N>& rhs) const {
-    binary ans(bits);
+    binary<N> ans(bits);
     ans = ans + rhs.twos_complement();
     return ans;
 }
 
 template <size_t N>
-binary<N> binary<N>::operator*(const binary<N>& rhs) const {
+binary<2 * N> binary<N>::operator*(const binary<N>& rhs) const {
     std::bitset<N + 1> qq(rhs.to_string() + "0");
-    binary a;
+    binary<N> a;
     for (int k = 0; k < N; k++) {
         if (qq.to_string().substr(N - 1, 2) == "10") {
             a = a - *this;
@@ -174,8 +188,7 @@ binary<N> binary<N>::operator*(const binary<N>& rhs) const {
         a = a._shr(1);
     }
 
-    std::bitset<2 * N + 1> ans(a.to_string() + qq.to_string());
-    return binary(ans.to_string().substr(N, N));
+    return binary<2 * N>(a.to_string() + qq.to_string().substr(0, N));
 }
 
 template <size_t N>
@@ -254,6 +267,28 @@ binary<N> binary<N>::operator>>(const int& r) const {
 template <size_t N>
 binary<N> binary<N>::operator<<(const int& r) const {
     return binary<N>(bits << r);
+}
+
+template <size_t N>
+binary<N> binary<N>::rol(const int& r) const {
+    binary<N> temp(bits);
+    for (int i = 0; i < r; i++) {
+        int msb = temp._msb();
+        temp = temp << 1;
+        temp.set(0, msb);
+    }
+    return temp;
+}
+
+template <size_t N>
+binary<N> binary<N>::ror(const int& r) const {
+    binary<N> temp(bits);
+    for (int i = 0; i < r; i++) {
+        int lsb = temp.get(0);
+        temp = temp >> 1;
+        temp.set(_BINARY_LENGTH - 1, lsb);
+    }
+    return temp;
 }
 
 template <size_t N>

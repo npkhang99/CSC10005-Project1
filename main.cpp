@@ -16,8 +16,8 @@ bool is_nan(const string& st) {
 }
 
 int main() {
-    floating_binary a("01000001000100000000001000001100");
-    floating_binary b("01000001001011111111110111110100");
-    cout << (a + b).to_string() << endl;
+    floating_binary a("00111110100110011001100110011010");
+    floating_binary b("00111101110011001100110011001101");
+    cout << (a * b).to_string() << endl;
     return 0;
 }

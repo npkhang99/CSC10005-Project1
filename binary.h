@@ -14,7 +14,6 @@ class binary {
 private:
     // init cheat
     std::bitset<N> bits;
-    binary(const std::bitset<N>&);
 
     // one (1) and zero (0) in `binary'
     binary<N> _one() const;
@@ -31,11 +30,13 @@ public:
     binary(const int&);
     binary(const binary<N>&);
     binary(const std::string&);
+    binary(const std::bitset<N>&);
 
     std::string to_string() const;
 
     // get two's complement
     binary<N> twos_complement() const;
+    binary<2 * N + 1> unsigned_multiply(const binary<N>&) const;
 
     // get / set bit at a given position
     bool get(const size_t&) const;
@@ -55,7 +56,7 @@ public:
     // just 3rd grade math
     binary<N> operator+(const binary<N>&) const;
     binary<N> operator-(const binary<N>&) const;
-    binary<N> operator*(const binary<N>&) const;
+    binary<2 * N> operator*(const binary<N>&) const;
     binary<N> operator/(const binary<N>&) const;
     binary<N> operator%(const binary<N>&) const;
 

@@ -19,15 +19,21 @@ def generate_random_binary_string(length = _BINARY_LENGTH):
     return n.int
 
 if __name__ == "__main__":
-    a = Bits(int = (-2247711972460109982), length = _BINARY_LENGTH)
-    b = Bits(int = (1801822347250296720), length = _BINARY_LENGTH)
+    # a = Bits(int = (-2247711972460109982), length = _BINARY_LENGTH)
+    # b = Bits(int = (1801822347250296720), length = _BINARY_LENGTH)
 
-    ans = Bits(int = int(str(a.int / b.int).split('.')[0]), length = _BINARY_LENGTH)
+    # ans = Bits(int = int(str(a.int / b.int).split('.')[0]), length = _BINARY_LENGTH)
 
-    print('({}) / ({}) = {}'.format(a.int, b.int, ans.int))
-    print('{}\n{}\n{}'.format(a.bin, b.bin, ans.bin))
+    # print('({}) / ({}) = {}'.format(a.int, b.int, ans.int))
+    # print('{}\n{}\n{}'.format(a.bin, b.bin, ans.bin))
 
-    ans = Bits(int = abs(a.int - (b.int * int(str(a.int / b.int).split('.')[0]))), length = _BINARY_LENGTH)
+    # ans = Bits(int = abs(a.int - (b.int * int(str(a.int / b.int).split('.')[0]))), length = _BINARY_LENGTH)
 
-    print('({}) % ({}) = {}'.format(a.int, b.int, ans.int))
-    print('{}\n{}\n{}'.format(a.bin, b.bin, ans.bin))
+    # print('({}) % ({}) = {}'.format(a.int, b.int, ans.int))
+    # print('{}\n{}\n{}'.format(a.bin, b.bin, ans.bin))
+
+    a = Bits(float = 0.125, length = 32)
+    b = Bits(float = 3.125, length = 32)
+
+    print(Bits(float = a.float * b.float, length = 32).float)
+    print(Bits(float = a.float * b.float, length = 32).bin)
