@@ -56,9 +56,15 @@ int compare(const std::string& a, const std::string& b) {
     return 0;
 }
 
-void remove_leading_zeros(std::string& st) {
+void remove_leading_zeroes(std::string& st) {
     while (st.length() > 1 && st[0] == '0') {
         st.erase(st.begin());
+    }
+}
+
+void remove_trailing_zeroes(std::string& st) {
+    while (st.length() > 1 && st.back() == '0') {
+        st.erase(--st.end());
     }
 }
 
@@ -93,7 +99,7 @@ bool divide(std::string& dividend, std::string divisor) {
 
     dividend = (a - b).to_string();
 
-    remove_leading_zeros(dividend);
+    remove_leading_zeroes(dividend);
 
     return 1;
 }
@@ -114,8 +120,8 @@ binary<N> true_division(const binary<N>& lhs, const binary<N>& rhs) {
     std::string dividend = lhs.to_string();
     std::string divisor = rhs.to_string();
 
-    remove_leading_zeros(dividend);
-    remove_leading_zeros(divisor);
+    remove_leading_zeroes(dividend);
+    remove_leading_zeroes(divisor);
 
     for (int i = N - 1; i >= 0; i--) {
         ans.set(i, divide(dividend, divisor));
