@@ -39,29 +39,6 @@ binary<N> binary<N>::twos_complement() const {
 }
 
 template <size_t N>
-binary<2 * N + 1> binary<N>::unsigned_multiply(const binary<N>& rhs) const {
-    binary<N + 1> m('0' + bits.to_string());
-    binary<N> q(rhs);
-    binary<1 + N> ca;
-    binary<1 + N> a;
-
-    for (int i = 0; i < N; i++) {
-        if (q.get(0) == 1) {
-            ca = a + m;
-        }
-
-        q = q >> 1;
-        q.set(N - 1, ca.get(0));
-        ca = ca >> 1;
-        ca.set(N, 0);
-
-        a = binary<N + 1>('0' + ca.to_string().substr(1, N));
-    }
-
-    return binary<2 * N + 1>(ca.to_string() + q.to_string());
-}
-
-template <size_t N>
 bool binary<N>::_msb() const {
     return bits.test(N - 1);
 }

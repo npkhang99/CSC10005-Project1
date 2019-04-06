@@ -31,13 +31,14 @@ public:
 	std::string print_QInt(const int&);
 
 	// conversion functions
-
 	static std::string bin_to_dec(std::string);
 	static std::string bin_to_hex(std::string);
 	static std::string dec_to_bin(std::string);
 	static std::string dec_to_hex(std::string);
 	static std::string hex_to_bin(std::string);
 	static std::string hex_to_dec(std::string);
+
+	static std::string two_complements(std::string);
 
 	// wrapper functions
     QInt& operator=(const QInt&);

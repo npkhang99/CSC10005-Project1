@@ -199,6 +199,10 @@ std::string QInt::hex_to_dec(std::string value) {
 	return std::bitset<_BINARY_LENGTH>(bin_to_dec(hex_to_bin(value))).to_string();
 }
 
+std::string QInt::two_complements(std::string value) {
+	return binary<_BINARY_LENGTH>(value).twos_complement().to_string();
+}
+
 // wrapper functions
 
 QInt& QInt::operator=(const QInt& rhs) {

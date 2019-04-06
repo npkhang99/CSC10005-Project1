@@ -36,7 +36,6 @@ public:
 
     // get two's complement
     binary<N> twos_complement() const;
-    binary<2 * N + 1> unsigned_multiply(const binary<N>&) const;
 
     // get / set bit at a given position
     bool get(const size_t&) const;

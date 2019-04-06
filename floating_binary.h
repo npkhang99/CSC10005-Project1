@@ -7,6 +7,7 @@
 #include <cassert>
 
 #include "config.h"
+#include "util.h"
 #include "binary.h"
 #include "QInt.h"
 
