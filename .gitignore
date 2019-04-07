@@ -4,3 +4,5 @@
 *.o
 *.txt
 .vscode
+*.doc
+*.docx

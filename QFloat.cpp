@@ -107,6 +107,37 @@ std::string _mantissa_padding(std::string st) {
     return st;
 }
 
+QFloat::QFloat() {
+    n = floating_binary(binary<_FP_LENGTH>(0).to_string());
+}
+
+QFloat::QFloat(const std::string& value, const int& base) {
+    if (base == 2) {
+        n = floating_binary(value);
+    }
+    else {
+        n = floating_binary(QFloat::dec_to_bin(value));
+        cerr << "this\n";
+    }
+}
+
+QFloat::QFloat(const floating_binary& o) {
+    n = o;
+}
+
+std::string QFloat::to_string(const int& base) const {
+    // std::cerr << n.to_string() << std::endl;
+    if (base == 10) {
+        return QFloat::bin_to_dec(n.to_string());
+    }
+    return n.to_string();
+}
+
+QFloat& QFloat::operator=(const QFloat& rhs) {
+    n = rhs.n;
+    return *this;
+}
+
 std::string QFloat::dec_to_bin(std::string value) {
     int sign = value[0] == '-';
 
@@ -218,4 +249,20 @@ std::string QFloat::bin_to_dec(std::string value) {
     }
 
     return dec + fraction.substr(1, fraction.length() - 1);
+}
+
+QFloat QFloat::operator+(const QFloat& rhs) const {
+    return n + rhs.n;
+}
+
+QFloat QFloat::operator-(const QFloat& rhs) const {
+    return n - rhs.n;
+}
+
+QFloat QFloat::operator*(const QFloat& rhs) const {
+    return n * rhs.n;
+}
+
+QFloat QFloat::operator/(const QFloat& rhs) const {
+    return n / rhs.n;
 }

@@ -17,7 +17,12 @@ private:
 
 public:
     QFloat();
-    QFloat(const std::string&);
+    QFloat(const std::string&, const int&);
+    QFloat(const floating_binary&);
+
+    std::string to_string(const int&) const;
+
+    QFloat& operator=(const QFloat&);
 
     QFloat operator+(const QFloat&) const;
     QFloat operator-(const QFloat&) const;
