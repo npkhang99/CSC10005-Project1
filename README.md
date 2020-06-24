@@ -1,0 +1,100 @@
+# CSC10005-Project1
+
+CSC10005 - Computer Architecture and Assembly Language Project #1
+
+## Thông tin tổng quát
+
+### Thành viên nhóm:
+
+- Nguyễn Phúc Khang - 1712224
+- Nguyễn Quý Toàn - 1712823
+- Nguyễn Lê Sang - 1712236
+
+### Danh sách tính năng
+
+- Số nguyên lớn:
+    Kiểu dữ liệu số nguyên lớn QInt có độ lớn 16 byte với các tính năng:
+    - [x] Hàm nhập / xuất
+    - [x] Hàm chuyển đổi thập phân sang nhị phân
+    - [x] Hàm chuyển đổi nhị phân sang thập phân
+    - [x] Hàm chuyển đổi thập phân sang thập lục phân
+    - [x] Hàm chuyển đổi nhị phân sang thập lục phân
+    - [x] Các toán tử: `+`, `-`, `*`, `/`
+    - [x] Các toán tử so sánh và gán: `<`, `>`, `<=`, `>=`, `==`, `=`
+    - [x] Các toán tử bit: AND `&`, OR `|`, XOR `^`, NOT `~`
+    - [x] Các toán tử dịch chuyển: dịch trái `<<`, dịch phải `>>`, xoay trái `rol`, xoay phải `ror`
+- Dấu chấm động với độ chính xác cao:
+    Kiểu dữ liệu biểu diễn số dấu chấm động có độ chính xác Quadruple-precision với độ lớn 128 bit với các tính năng:
+    - [x] Hàm nhập / xuất
+    - [x] Hàm chuyển đổi thập phân sang nhị phân
+    - [x] Hàm chuyển đổi nhi phân sang thập phân
+    - [x] Các toán tử: `+`, `-`, `*`, `/`
+
+### Thiết kế chương trình
+
+#### Cấu trúc thư mục
+
+Bài làm được chia thành hai thư mục chính:
+1. Thư mục `src` chứa mã nguồn của QInt và QFloat
+2. Thư mục `tests` chứa testcase của QInt và QFloat tương ứng
+
+#### Biên dịch và chạy chương trình
+
+**Note:** Chương trình đã được chạy thử nghiệm tốt trên Ubuntu 18.04.
+
+Để biên dịch và chạy được chương trình, một người cần phải có phiên bản CMake từ 3.5 trở lên. Sau khi có được phiên bản CMake thỏa mãn, chúng ta cần phải config CMake để có thể tạo ra Makefile phù hợp.
+
+Để config CMake dưới dạng Release, ta có thể dễ dàng chạy lệnh
+
+```sh
+$ cmake -DCMAKE_BUILD_TYPE=Release
+```
+
+Sau khi lệnh chạy xong, CMake đã được config thành công và ta có thể bắt đầu build chương trình. Để build chương trình, ta chạy lệnh
+
+```sh
+$ make
+```
+
+Sau khi build xong, bạn có thể chạy chương trình bằng cách gọi file thực thi `CSC10005-Project1`.
+
+Mặc định nếu bạn gọi file thực thi khi không kèm theo tham số, bạn sẽ thấy một dòng yêu cầu bạn nhập vào chế độ bạn mong muốn sử dụng (QInt hay QFloat). Sau đó, bạn có thể nhập lệnh.
+
+Nếu bạn gọi file thực thi có kèm theo tham số, bạn sẽ phải có đủ 3 tham số file đầu vào file xuất kết quả và chế độ xử lý theo format:
+
+```sh
+<program> <input_file> <output_file> <type>
+```
+
+Trong đó, `type` là 1 nếu bạn chạy dưới dạng QInt, `type` là 2 nếu bạn mong muốn chạy dưới dạng QFloat.
+
+#### Định dạng cấu trúc tập tin input và output
+
+Dưới đây là định nghĩa cấu trúc tập tin input cho dạng QInt.
+
+- Gồm $n$ dòng: không biết trước giá trị $n$
+- Trong mỗi dòng, sẽ có chỉ thị $p$ có các giá trị sau đây (các chỉ thị này được phân biệt với các toán hạng phía sau bằng đúng 1 ký tự khoảng trắng):
+    - $p = 2$: thực hiện tính toán, xử lý ở chế độ Binary
+    - $p = 10$: thực hiện tính toán, xử lý ở chế độ Decimal
+    - $p = 16$: thực hiện tính toán, xử lý ở chế độ Hexa
+- Nếu trong 1 dòng có 2 chỉ thị p1 và p2 (p1 và p2 cách nhau bởi đúng 1 khoảng trắng): có nghĩa là chuyển toán hạng ở chế độ p1 sang chế độ p2.
+- Trong một dòng, các toán tử hai ngôi và toán hạng được cách nhau bởi đúng 1 khoảng trắng.
+- Độ dài dãy bit nhị phân, dãy hexa không cố định và không vượt quá $128$ bit.
+- Mặc định dữ liệu trên từng dòng đã có tính đúng đắn, không cần xét tính hợp lệ của dữ liệu đầu vào. Mỗi thành phần trên một dòng cách nhau bởi đúng 1 khoảng trắng.
+
+Dưới đây là định nghĩa cấu trúc tập tin output cho dạng QInt.
+
+- Ghi ra $n$ dòng, mỗi dòng tương ứng của tập tin Input là kết quả của phép tính toán hoặc chuyển đổi.
+
+**Ví dụ:**
+
+| Input file                             | Output file                                                  |
+| :------------------------------------- | ------------------------------------------------------------ |
+| 2 1111100011101010111 + 01101110110111 | 1111110001100001110                                          |
+| 2 11011011 * 010101111                 | 1001010110110101                                             |
+| 2 10 01101010111110111111              | 438207                                                       |
+| 10 2 8793278316383117319               | 11101000001000000000000000101000111011001010010010000000000111 |
+| 16 85AF + 90BC                         | 1166B                                                        |
+| 10 5678 >> 2                           | 1419                                                         |
+
+**Định dạng tập tin input và output của QFloat tương tự như trên**
