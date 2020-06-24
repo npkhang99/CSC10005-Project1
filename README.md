@@ -29,7 +29,7 @@ CSC10005 - Computer Architecture and Assembly Language Project #1
     - [x] Hàm chuyển đổi thập phân sang nhị phân
     - [x] Hàm chuyển đổi nhi phân sang thập phân
     - [x] Các toán tử: `+`, `-`, `*`, `/`
-    - [x] Xác định các số nhị phân có dạng vô cùng `infinity`, không phải là một số dấu chấm động `NaN` hay số chưa được chuẩn hóa `denormalized`
+    - [x] Xác định các số nhị phân có dạng vô cùng `infinity`, không phải là một số dấu chấm động vô nghĩa `NaN` hay số chưa được chuẩn hóa `denormalized`
 
 ### Thiết kế chương trình
 
