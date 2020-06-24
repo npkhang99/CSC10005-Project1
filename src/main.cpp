@@ -10,8 +10,17 @@ using namespace std;
 #include "floating_binary.h"
 
 bool is_nan(const string& st) {
-    for (int i = 0; i < st.length(); i++) {
+    for (size_t i = 0; i < st.length(); i++) {
         if (!isxdigit(st[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool is_nan_float(const string& st) {
+    for (size_t i = 0; i < st.length(); i++) {
+        if (st[i] != '.' && !isxdigit(st[i])) {
             return true;
         }
     }
@@ -46,7 +55,7 @@ int parse_qint() {
 
     if (is_bitwise_operation(sec[0])) {
         char op = sec[0];
-        sec = sec.substr(1, sec.length() - 1);
+        ss >> sec;
         if (op == '~') {
             ans = ~QInt(sec, ori_base);
         }
@@ -54,10 +63,11 @@ int parse_qint() {
     else {
         string op;
         ss >> op;
-
-        if (!is_nan(op) || (op[0] == '-' && !is_nan(op.substr(1, op.length() - 1)))) {
+        if (!is_nan(op) || (op.length() > 1 && op[0] == '-' && !is_nan(op.substr(1, op.length() - 1)))) {
             QInt a(op, ori_base);
-            cout << a.print_QInt(stoi(sec)) << endl;
+            string trimmed = a.print_QInt(stoi(sec));
+            remove_leading_zeroes(trimmed);
+            cout << trimmed << endl;
             return 0;
         }
         else {
@@ -65,7 +75,15 @@ int parse_qint() {
             ss >> operand;
 
             QInt a(sec, ori_base);
-            QInt b(operand, ori_base);
+            QInt b;
+
+            // shift and rotate operators have right hand side operands always in base 10
+            if (op == "<<" || op == ">>" || op == "ror" || op == "rol") {
+                b = QInt(operand, 10);
+            }
+            else {
+                b = QInt(operand, ori_base);
+            }
 
             if (op == "+") {
                 ans = a + b;
@@ -103,6 +121,9 @@ int parse_qint() {
             else if (op == "&") {
                 ans = a & b;
             }
+            else if (op == "==") {
+                logic_answer = a == b;
+            }
             else if (op == ">") {
                 logic_answer = a > b;
             }
@@ -126,7 +147,9 @@ int parse_qint() {
         cout << (logic_answer ? "true" : "false") << endl;
     }
     else {
-        cout << ans.print_QInt(ori_base) << endl;
+        string trimmed = ans.print_QInt(ori_base);
+        remove_leading_zeroes(trimmed);
+        cout << trimmed << endl;
     }
     return 0;
 }
@@ -154,13 +177,10 @@ int parse_qfloat() {
     string op;
     ss >> op;
 
-    cerr << ori_base << " " <<sec << endl;
-
-    if (!is_nan(op) || (op[0] == '-' && !is_nan(op.substr(1, op.length() - 1)))) {
+    if (!is_nan_float(op) || (op.length() > 1 && op[0] == '-' && !is_nan_float(op.substr(1, op.length() - 1)))) {
         QFloat a(op, ori_base);
-        cerr << a.to_string(stoi(sec)) << endl;
+        // cerr << a.to_string(stoi(sec)) << endl;
         cout << a.to_string(stoi(sec)) << endl;
-        cerr << "no\n";
         return 0;
     }
     else {
@@ -194,7 +214,7 @@ int parse_qfloat() {
 
 int main(int argc, const char* argv[]) {
     if (argc != 1 && argc != 4) {
-        cerr << "usage: <program> [input_file] [output_file] [type]\n";
+        cerr << "usage: <program> [<input_file> <output_file> <type>]\n";
         return 1;
     }
     else if (argc == 1) {
@@ -216,7 +236,7 @@ int main(int argc, const char* argv[]) {
         int cnt = 0;
         if (type == 1) {
             while (true) {
-                cerr << ++cnt << endl;
+                cerr << "Running QInt on test " << ++cnt << endl;
                 if (parse_qint() == -1) {
                     break;
                 }
@@ -224,10 +244,15 @@ int main(int argc, const char* argv[]) {
         }
         else if (type == 2) {
             while (true) {
+                cerr << "Running QFloat on test " << ++cnt << endl;
                 if (parse_qfloat() == -1) {
                     break;
                 }
             }
+        }
+        else {
+            cerr << "[type] can only be '1' or '2'\n";
+            return 1;
         }
     }
     return 0;

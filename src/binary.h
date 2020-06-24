@@ -1,4 +1,83 @@
-#include "binary.h"
+#if !defined(_BINARY_H_)
+#define _BINARY_H_
+
+#include "config.h"
+
+#include <iostream>
+#include <bitset>
+#include <string>
+#include <cmath>
+#include <functional>
+#include <cctype>
+
+template <size_t N>
+class binary {
+private:
+    // init cheat
+    std::bitset<N> bits;
+
+    // one (1) and zero (0) in `binary'
+    binary<N> _one() const;
+    binary<N> _zero() const;
+
+    // arithmetic right shift
+    binary<N> _shr(const int&) const;
+    
+    // returns the value of the most significant bit
+    bool _msb() const;
+
+public:
+    binary();
+    binary(const int&);
+    binary(const binary<N>&);
+    binary(const std::string&);
+    binary(const std::bitset<N>&);
+
+    std::string to_string() const;
+
+    // get two's complement
+    binary<N> twos_complement() const;
+
+    // get / set bit at a given position
+    bool get(const size_t&) const;
+    binary<N> set(const size_t&, const bool&);
+
+    // very difficult to understand operator
+    binary<N>& operator=(const binary<N>&);
+
+    // this vs that, FIGHT!
+    bool operator>(const binary<N>&) const;
+    bool operator<(const binary<N>&) const;
+    bool operator<=(const binary<N>&) const;
+    bool operator>=(const binary<N>&) const;
+    bool operator==(const binary<N>&) const;
+    bool operator!=(const binary<N>&) const;
+
+    // just 3rd grade math
+    binary<N> operator+(const binary<N>&) const;
+    binary<N> operator-(const binary<N>&) const;
+    binary<2 * N> operator*(const binary<N>&) const;
+    binary<N> operator/(const binary<N>&) const;
+    binary<N> operator%(const binary<N>&) const;
+
+    std::pair<binary<N>, binary<N>> divmod(const binary<N>&) const;
+    
+    // bit-wise operators
+    binary<N> operator|(const binary<N>&) const;
+    binary<N> operator&(const binary<N>&) const;
+    binary<N> operator^(const binary<N>&) const;
+    binary<N> operator~() const;
+    binary<N> operator>>(const int&) const;
+    binary<N> operator<<(const int&) const;
+
+    // rotation
+    binary<N> rol(const int&) const;
+    binary<N> ror(const int&) const;
+
+    // just for debugging
+    template <size_t M>
+    friend std::ostream& operator<<(std::ostream& os, const binary<M>&);
+};
 
 template <size_t N>
 binary<N>::binary(const std::bitset<N>& o) {
@@ -8,7 +87,7 @@ binary<N>::binary(const std::bitset<N>& o) {
 template <size_t N>
 binary<N> binary<N>::_one() const {
     std::string one = "";
-    for (int i = 0; i < N - 1; i++) {
+    for (int i = 0; i < (int) N - 1; i++) {
         one.push_back('0');
     }
     one.push_back('1');
@@ -54,7 +133,7 @@ binary<N>::binary(const int& value) {
 }
 
 template <size_t N>
-binary<N>::binary(const binary& o) {
+binary<N>::binary(const binary<N>& o) {
     bits = o.bits;
 }
 
@@ -133,7 +212,7 @@ template <size_t N>
 binary<N> binary<N>::operator+(const binary<N>& rhs) const {
     binary<N> ans(bits);
     int remainder = 0;
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < (int) N; i++) {
         int sum = (int) rhs.get(i) + (int) bits[i] + (int) remainder;
         remainder = sum / 2;
         ans.set(i, sum % 2);
@@ -152,7 +231,7 @@ template <size_t N>
 binary<2 * N> binary<N>::operator*(const binary<N>& rhs) const {
     std::bitset<N + 1> qq(rhs.to_string() + "0");
     binary<N> a;
-    for (int k = 0; k < N; k++) {
+    for (int k = 0; k < (int) N; k++) {
         if (qq.to_string().substr(N - 1, 2) == "10") {
             a = a - *this;
         }
@@ -184,7 +263,7 @@ std::pair<binary<N>, binary<N>> binary<N>::divmod(const binary<N>& rhs) const {
         m = m.twos_complement();
     }
 
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < (int) N; i++) {
         a = a << 1;
         a.set(0, q._msb());
         q = q << 1;
@@ -273,3 +352,5 @@ std::ostream& operator<<(std::ostream& os, const binary<N>& rhs) {
     os << rhs.to_string();
     return os;
 }
+
+#endif // _BINARY_H_

@@ -67,10 +67,4 @@ public:
     QInt ror(const int&) const;
 };
 
-#ifdef _LOCAL
-
-#include "QInt.cpp"
-
-#endif
-
 #endif // _QINT_H_

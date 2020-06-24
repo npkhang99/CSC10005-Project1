@@ -33,10 +33,4 @@ public:
     static std::string bin_to_dec(std::string);
 };
 
-#ifdef _LOCAL
-
-#include "QFloat.cpp"
-
-#endif
-
 #endif // _QFLOAT_H_

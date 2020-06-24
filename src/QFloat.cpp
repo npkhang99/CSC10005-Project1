@@ -14,7 +14,7 @@ std::string _two_power_minus(const int& exp) {
     std::string answer = p.print_QInt(10);
     remove_leading_zeroes(answer);
 
-    for (int i = 0; i < answer.length() - exp; i++) {
+    for (int i = 0; i < (int) answer.length() - exp; i++) {
         answer = '0' + answer;
     }
 
@@ -53,7 +53,7 @@ std::string _string_fraction_addition(std::string a, std::string b) {
 }
 
 std::string _string_mul_two(std::string value) {
-	int point = 0;
+	size_t point = 0;
 	std::string tmp = "", res = "";
 
 	for (size_t i = 0; i < value.length(); ++i) {
@@ -117,7 +117,6 @@ QFloat::QFloat(const std::string& value, const int& base) {
     }
     else {
         n = floating_binary(QFloat::dec_to_bin(value));
-        cerr << "this\n";
     }
 }
 
@@ -139,20 +138,29 @@ QFloat& QFloat::operator=(const QFloat& rhs) {
 }
 
 std::string QFloat::dec_to_bin(std::string value) {
-    int sign = value[0] == '-';
+    bool sign = value[0] == '-';
 
     if (value[0] == '-') {
         value.erase(value.begin());
     }
 
     remove_leading_zeroes(value);
+    remove_trailing_zeroes(value);
 
-    if (value == "0") {
+    if (value.front() == '.') {
+        value = '0' + value;
+    }
+
+    if (value.back() == '.') {
+        value += '0';
+    }
+
+    if (value == "0" || value == "0.0") {
         return std::string(_FP_LENGTH, '0');
     }
 
     std::string s = "0";
-    for (int i = 0; i < value.length(); i++) {
+    for (int i = 0; i < (int) value.length(); i++) {
         if (value[i] == '.') {
             break;
         }
@@ -160,7 +168,6 @@ std::string QFloat::dec_to_bin(std::string value) {
     }
 
     remove_leading_zeroes(s);
-
     s = QInt::dec_to_bin(s);
 
 	std::string res = "";
@@ -204,14 +211,23 @@ std::string QFloat::dec_to_bin(std::string value) {
 }
 
 std::string QFloat::bin_to_dec(std::string value) {
-    int sign = value[0] == '1';
+    if (value.substr(1, _FP_EXPONENT) == std::string(_FP_EXPONENT, '1')) {
+        return value.substr(_FP_EXPONENT + 1, _FP_MANTISSA) == std::string(_FP_MANTISSA, '0') ? "infinity" : "NaN";
+    }
+
+    if (value.substr(1, _FP_EXPONENT) == std::string(_FP_EXPONENT, '0')) {
+        return "denormalized";
+    }
+
+    char sign = value[0] == '1';
+
     unsigned long long bias = (int) pow(2, _FP_EXPONENT - 1) - 1;
     unsigned long long exp = std::bitset<_FP_EXPONENT>(value.substr(1, _FP_EXPONENT)).to_ullong() - bias;
 
     std::string mantissa = "1." + value.substr(_FP_EXPONENT + 1, _FP_MANTISSA);
 
     std::string man = "0.0";
-    for (int i = 2; i < mantissa.length(); i++) {
+    for (int i = 2; i < (int) mantissa.length(); i++) {
         if (mantissa[i] == '1') {
             man = _string_fraction_addition(man, _two_power_minus(i - 1));
         }
@@ -232,7 +248,7 @@ std::string QFloat::bin_to_dec(std::string value) {
         mantissa[pos] = mantissa[pos + 1];
         mantissa[pos + 1] = '.';
         pos++;
-        if (pos == mantissa.length() - 1) {
+        if (pos == (int) mantissa.length() - 1) {
             mantissa = mantissa + '0';
         }
     }
@@ -242,12 +258,15 @@ std::string QFloat::bin_to_dec(std::string value) {
 
     remove_trailing_zeroes(frac);
     std::string fraction = "0.0";
-    for (int i = 0; i < frac.length(); i++) {
+    for (int i = 0; i < (int) frac.length(); i++) {
         if (frac[i] == '1') {
             fraction = _string_fraction_addition(fraction, _two_power_minus(i + 1));
         }
     }
 
+    if (sign) {
+        return '-' + dec + fraction.substr(1, fraction.length() - 1);
+    }
     return dec + fraction.substr(1, fraction.length() - 1);
 }
 

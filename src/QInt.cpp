@@ -126,7 +126,7 @@ std::string QInt::print_QInt(const int& base) {
 		if (tmp[0] == '1') {
 			tmp = n.twos_complement().to_string();
 			return "-" + bin_to_dec(tmp);
-		}	
+		}
 		return bin_to_dec(tmp);
 	}
 	else {

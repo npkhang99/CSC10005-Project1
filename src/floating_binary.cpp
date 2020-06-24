@@ -10,7 +10,7 @@ floating_binary::floating_binary(const std::string &st) {
 }
 
 std::string floating_binary::_mantissa_padding(std::string st, const int& _length) const {
-    while (st.length() < _length) {
+    while ((int) st.length() < _length) {
         st += '0';
     }
     return st;
@@ -18,7 +18,7 @@ std::string floating_binary::_mantissa_padding(std::string st, const int& _lengt
 
 void floating_binary::_align_radix_point(binary<_FP_EXPONENT + 1>& exp, binary<_FP_MANTISSA + 1>& mantissa, const unsigned long long& delta) const {
     exp = exp + binary<_FP_EXPONENT + 1>(delta);
-    for (int i = 0; i < delta; i++) {
+    for (unsigned long long i = 0; i < delta; i++) {
         mantissa = mantissa >> 1;
         mantissa.set(_FP_MANTISSA, 0);
     }

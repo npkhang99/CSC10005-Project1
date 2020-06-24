@@ -37,8 +37,4 @@ public:
     floating_binary operator/(const floating_binary&) const;
 };
 
-#ifdef _LOCAL
-#include "floating_binary.cpp"
-#endif
-
 #endif // _FLOATING_BINARY_H_
