@@ -29,6 +29,7 @@ CSC10005 - Computer Architecture and Assembly Language Project #1
     - [x] Hàm chuyển đổi thập phân sang nhị phân
     - [x] Hàm chuyển đổi nhi phân sang thập phân
     - [x] Các toán tử: `+`, `-`, `*`, `/`
+    - [x] Xác định các số nhị phân có dạng vô cùng `infinity`, không phải là một số dấu chấm động `NaN` hay số chưa được chuẩn hóa `denormalized`
 
 ### Thiết kế chương trình
 
@@ -98,3 +99,7 @@ Dưới đây là định nghĩa cấu trúc tập tin output cho dạng QInt.
 | 10 5678 >> 2                           | 1419                                                         |
 
 **Định dạng tập tin input và output của QFloat tương tự như trên**
+
+#### Một số vấn đề còn gặp phải
+
+Đối với QFloat, sai số vẫn còn là một trong những vấn đề nhóm chưa giải quyết được. Với việc chuyển đổi từ số thập phân sang nhị phân, sai số gần như không đáng kể. Tuy nhiên với phần chuyển đổi từ hệ nhị phân sang thập phân, sai số có thể nói là khá cao, nhìn chung thì phần nguyên vẫn đúng, nhưng sai số phần số thực thì nằm ở trong khoảng tương đối lớn.
