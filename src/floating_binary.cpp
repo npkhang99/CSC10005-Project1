@@ -151,7 +151,7 @@ floating_binary floating_binary::operator/(const floating_binary& rhs) const {
     }
 
     if (rhs.bits == std::bitset<_FP_LENGTH>(0)) {
-        throw "Error: Divide by 0";
+        throw "Error: Divided by 0";
     }
 
     binary<_FP_EXPONENT> mantissa_lhs(to_string().substr(1 + _FP_EXPONENT, _FP_MANTISSA));
