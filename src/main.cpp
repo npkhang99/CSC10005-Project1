@@ -214,7 +214,7 @@ int parse_qfloat() {
 
 int main(int argc, const char* argv[]) {
     if (argc != 1 && argc != 4) {
-        cerr << "usage: <program> [<input_file> <output_file> <type>]\n";
+        cerr << "usage: " << argv[0] << " [<input_file> <output_file> <type>]\n";
         return 1;
     }
     else if (argc == 1) {

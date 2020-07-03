@@ -1,6 +1,7 @@
 #include "QFloat.h"
 
-bool compare_to_one(std::string value) { // true when higher, false when lower
+// true when higher, false when lower
+bool compare_to_one(std::string value) {
 	return value[0] > '0';
 }
 

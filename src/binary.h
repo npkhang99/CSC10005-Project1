@@ -16,7 +16,7 @@ private:
     // init cheat
     std::bitset<N> bits;
 
-    // one (1) and zero (0) in `binary'
+    // one (1) and zero (0) in `binary`
     binary<N> _one() const;
     binary<N> _zero() const;
 
@@ -38,8 +38,9 @@ public:
     // get two's complement
     binary<N> twos_complement() const;
 
-    // get / set bit at a given position
+    // get bit at a given position
     bool get(const size_t&) const;
+    // set bit at a given position
     binary<N> set(const size_t&, const bool&);
 
     // very difficult to understand operator
@@ -60,6 +61,8 @@ public:
     binary<N> operator/(const binary<N>&) const;
     binary<N> operator%(const binary<N>&) const;
 
+    // returns a pair of number with type `binary` consisting of
+    // their quotient and remainder, respectively
     std::pair<binary<N>, binary<N>> divmod(const binary<N>&) const;
     
     // bit-wise operators

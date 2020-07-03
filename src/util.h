@@ -9,8 +9,9 @@
 #include "binary.h"
 #include "QInt.h"
 
-// unsigned multiply for multiply mantissas in multiplying
-// two floating point binary number
+/**
+ * Unsigned multiply for mantissas in multiplying two floating point binary number.
+ */
 template <size_t N>
 binary<2 * N + 1> unsigned_multiply(const binary<N>& lhs, const binary<N>& rhs) {
     binary<N + 1> m('0' + lhs.to_string());
@@ -34,19 +35,56 @@ binary<2 * N + 1> unsigned_multiply(const binary<N>& lhs, const binary<N>& rhs) 
     return binary<2 * N + 1>(ca.to_string() + q.to_string());
 }
 
-// compare 2 strings
-int compare(const std::string&, const std::string&);
+/**
+ * @brief   Compare two strings
+ * 
+ * @param a The first string
+ * @param b The second string
+ * 
+ * @return  A value describing the relation between `a` and `b`, if the return value is `-1` it means that a < b,
+ *          if the return value is `1` then a > b, otherwise the return value is `0`
+ */
+int compare(const std::string& a, const std::string& b);
 
-void remove_leading_zeroes(std::string&);
+/**
+ * @brief   Remove leading 0s from a string.
+ * 
+ * @param st The string you want to remove leading 0s.
+ * 
+ * @return  Nothing.
+ */
+void remove_leading_zeroes(std::string& st);
 
-void remove_trailing_zeroes(std::string&);
+/**
+ * @brief   Remove trailing 0s from a string.
+ * 
+ * @param st The string you want to remove trailing 0s.
+ * 
+ * @return  Nothing.
+ */
+void remove_trailing_zeroes(std::string& st);
 
-// divide binaries on string (dividend / divisor)
-// return 0 if cannot perform division
-// return 1 if can and change the dividend
-bool divide(std::string&, std::string);
+/**
+ * @brief   Divide binaries on string.
+ * 
+ * The `divisor` must not equal `0` before hand, this function does not check for
+ * division by zero and may lead to wrong answers or runtime errors
+ * 
+ * @param dividend  The dividend
+ * @param divisor   The divisor
+ * 
+ * @return `0` if cannot perform division, or `1` if can and change the dividend
+ */
+bool divide(std::string& dividend, std::string divisor);
 
-bool string_is_zero(const std::string&);
+/**
+ * @brief   Check to see whether the string only contains `0`s
+ * 
+ * @param st The string you want to check
+ * 
+ * @return  `true` if `st` only contains `0`s, otherwise, `false`
+ */
+bool string_is_zero(const std::string& st);
 
 // true floating binary number division
 template <size_t N>

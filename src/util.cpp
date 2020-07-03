@@ -47,15 +47,6 @@ bool divide(std::string& dividend, std::string divisor) {
         divisor = '0' + divisor;
     }
 
-    // std::cerr << dividend << std::endl << divisor << std::endl;
-    // int remainder = 0;
-    // for (int i = 0; i < dividend.length(); i++) {
-    //     int sub = dividend[i] - divisor[i] - remainder;
-    //     remainder = (sub < 0 ? (abs(sub / 2) + 1) : 0);
-    //     dividend[i] = abs(sub % 2) + '0';
-    // }
-    // std::cerr << dividend << std::endl << std::endl;
-
     binary<227> a(dividend);
     binary<227> b(divisor);
 
