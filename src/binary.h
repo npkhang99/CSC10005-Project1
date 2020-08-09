@@ -13,17 +13,37 @@
 template <size_t N>
 class binary {
 private:
-    // init cheat
+    // this is cheat
     std::bitset<N> bits;
 
-    // one (1) and zero (0) in `binary`
+    /**
+     * @brief One (1) in binary presentation.
+     * 
+     * @return A `binary<N>` with value 1.
+     */
     binary<N> _one() const;
+
+    /**
+     * @brief One (0) in binary presentation.
+     * 
+     * @return A `binary<N>` with value 0.
+     */
     binary<N> _zero() const;
 
-    // arithmetic right shift
-    binary<N> _shr(const int&) const;
+    /**
+     * @brief Arithmetic right shift.
+     * 
+     * @param r The number of bits to be shifted.
+     * 
+     * @return The value after the shift.
+     */
+    binary<N> _shr(const int& r) const;
     
-    // returns the value of the most significant bit
+    /**
+     * @brief Find the value of the most significant bit (right-most bit).
+     * 
+     * @return The value of the most significant bit.
+     */
     bool _msb() const;
 
 public:
@@ -35,18 +55,38 @@ public:
 
     std::string to_string() const;
 
-    // get two's complement
+    /**
+	 * @brief Get two's complement of a binary represented in string.
+	 * 
+	 * @param value The value you want to get two's complement.
+	 */
     binary<N> twos_complement() const;
 
-    // get bit at a given position
-    bool get(const size_t&) const;
-    // set bit at a given position
-    binary<N> set(const size_t&, const bool&);
+    /**
+	 * @brief Test for value of a bit.
+	 * 
+	 * @param pos The position you want to test.
+     * 
+     * @return The value of the bit at the given position.
+	 */
+    bool get(const size_t& pos) const;
+    
+    /**
+	 * @brief Set value for a bit.
+	 * 
+	 * @param pos The position you want to set.
+     * @param 
+     * 
+     * @return A `binary<N>` after setting bit at `pos` to `value`.
+	 */
+    binary<N> set(const size_t& pos, const bool& value);
 
-    // very difficult to understand operator
+    /// A very difficult to understand operator
+
     binary<N>& operator=(const binary<N>&);
 
-    // this vs that, FIGHT!
+    /// This vs that, FIGHT!
+
     bool operator>(const binary<N>&) const;
     bool operator<(const binary<N>&) const;
     bool operator<=(const binary<N>&) const;
@@ -54,18 +94,21 @@ public:
     bool operator==(const binary<N>&) const;
     bool operator!=(const binary<N>&) const;
 
-    // just 3rd grade math
+    /// Just 3rd grade math
+
     binary<N> operator+(const binary<N>&) const;
     binary<N> operator-(const binary<N>&) const;
     binary<2 * N> operator*(const binary<N>&) const;
     binary<N> operator/(const binary<N>&) const;
     binary<N> operator%(const binary<N>&) const;
 
-    // returns a pair of number with type `binary` consisting of
-    // their quotient and remainder, respectively
+    /// returns a pair of number with type `binary` consisting of
+    /// their quotient and remainder, respectively
+    
     std::pair<binary<N>, binary<N>> divmod(const binary<N>&) const;
     
-    // bit-wise operators
+    /// bit-wise operators
+
     binary<N> operator|(const binary<N>&) const;
     binary<N> operator&(const binary<N>&) const;
     binary<N> operator^(const binary<N>&) const;
@@ -73,11 +116,12 @@ public:
     binary<N> operator>>(const int&) const;
     binary<N> operator<<(const int&) const;
 
-    // rotation
+    /// bit rotation
+
     binary<N> rol(const int&) const;
     binary<N> ror(const int&) const;
 
-    // just for debugging
+    /// easy iostream output for debugging
     template <size_t M>
     friend std::ostream& operator<<(std::ostream& os, const binary<M>&);
 };

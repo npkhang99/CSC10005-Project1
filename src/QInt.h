@@ -59,40 +59,40 @@ private:
 	};
 
 	/**
-	 * @brief Provate constructor to contruct a copy of `binary` type
+	 * @brief Provate constructor to contruct a copy of `binary` type.
 	 * 
-	 * @param o The `binary` value you want to copy
+	 * @param o The `binary` value you want to copy.
 	 */
 	QInt(const binary<_BINARY_LENGTH>& o);
 
 public:
 	/**
-	 * @brief Constructs a QInt with value 0
+	 * @brief Constructs a QInt with value 0.
 	 */
 	QInt();
 
 	/**
-	 * @brief Constructs a QInt with value as a string and a specified base
+	 * @brief Constructs a QInt with value as a string and a specified base.
 	 * 
-	 * @param value The value
-	 * @param base The base which the value is represented in
+	 * @param value The value.
+	 * @param base The base which the value is represented in.
 	 */
 	QInt(const std::string& value, const int& base);
 
 	/**
-	 * @brief Parse a value, which base is given, string to QInt
+	 * @brief Parse a value, which base is given, string to QInt.
 	 * 
-	 * @param value The value
-	 * @param base The base which the value is represented in
+	 * @param value The value.
+	 * @param base The base which the value is represented in.
 	 */
 	void scan_QInt(const std::string& value, const int& base);
 
 	/**
-	 * @brief Convert to a specific base
+	 * @brief Convert to a specific base.
 	 * 
-	 * @param base The base to convert to
+	 * @param base The base to convert to.
 	 * 
-	 * @return A string contains the value of the object represented in the given base
+	 * @return A string contains the value of the object represented in the given base.
 	 */
 	std::string print_QInt(const int& base);
 
@@ -100,7 +100,7 @@ public:
 	 * BASE CONVERTION FUNCTIONS
 	 * These should be self-explanatory
 	 * 
-	 * @param value The value you want to convert
+	 * @param value The value you want to convert.
 	 ***********************************************/
 
 	static std::string bin_to_dec(std::string value);
@@ -111,9 +111,9 @@ public:
 	static std::string hex_to_dec(std::string value);
 
 	/**
-	 * @brief Get two's complement of a binary represented in string
+	 * @brief Get two's complement of a binary represented in string.
 	 * 
-	 * @param value The value you want to get two's complement
+	 * @param value The value you want to get two's complement.
 	 */
 	static std::string twos_complement(std::string value);
 
@@ -121,7 +121,7 @@ public:
 	 * BINARY OPERATORS
 	 * These should be self-explanatory
 	 * 
-	 * @param rhs The right hand side operand
+	 * @param rhs The right hand side operand.
 	 ***********************************************/
 
     QInt& operator=(const QInt& rhs);
@@ -148,7 +148,7 @@ public:
 	 * BIT SHIFTING / ROATATING OPERATORS
 	 * These should be self-explanatory
 	 * 
-	 * @param r The number of bits to shift 
+	 * @param r The number of bits to shift.
 	 ***********************************************/
 
     QInt operator>>(const int& r) const;

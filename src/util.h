@@ -12,10 +12,10 @@
 /**
  * @brief Unsigned multiply for mantissas in multiplying two floating point binary number.
  * 
- * @param lhs The number to the left of multiply operator
- * @param rhs The number to the right of multiply operator
+ * @param lhs The number to the left of multiply operator.
+ * @param rhs The number to the right of multiply operator.
  * 
- * @return A `binary` with size of 2*`N`+1 contains the result of the unsigned multiplication.
+ * @return A `binary` with size of 2*N+1 contains the result of the unsigned multiplication.
  */
 template <size_t N>
 binary<2 * N + 1> unsigned_multiply(const binary<N>& lhs, const binary<N>& rhs) {
@@ -41,13 +41,13 @@ binary<2 * N + 1> unsigned_multiply(const binary<N>& lhs, const binary<N>& rhs) 
 }
 
 /**
- * @brief Compare two strings
+ * @brief Compare two strings.
  * 
- * @param a The first string
- * @param b The second string
+ * @param a The first string.
+ * @param b The second string.
  * 
  * @return A value describing the relation between `a` and `b`, if the return value is `-1` it means that a < b,
- *         if the return value is `1` then a > b, otherwise the return value is `0`
+ *         if the return value is `1` then a > b, otherwise the return value is `0`.
  */
 int compare(const std::string& a, const std::string& b);
 
@@ -68,30 +68,30 @@ void remove_trailing_zeroes(std::string& st);
 /**
  * @brief Divide binaries on string.
  * 
- * The `divisor` must not equal `0` before hand, this function does not check for
- * division by zero and may lead to wrong answers or runtime errors
+ * The `divisor` must not equal `0` before hand, this function does not check for.
+ * division by zero and may lead to wrong answers or runtime errors.
  * 
- * @param dividend  The dividend
- * @param divisor   The divisor
+ * @param dividend  The dividend.
+ * @param divisor   The divisor.
  * 
- * @return `0` if dividend is less than divisor, else return `1` and overrides the remainder to the dividend
+ * @return `0` if dividend is less than divisor, else return `1` and overrides the remainder to the dividend.
  */
 bool divide(std::string& dividend, std::string divisor);
 
 /**
- * @brief Check to see whether the string only contains `0`s
+ * @brief Check to see whether the string only contains `0`s.
  * 
- * @param st The string you want to check
+ * @param st The string you want to check.
  * 
- * @return `true` if `st` only contains `0`s, otherwise, `false`
+ * @return `true` if `st` only contains `0`s, otherwise, `false`.
  */
 bool string_is_zero(const std::string& st);
 
 /**
  * @brief Perforn division like 3rd grade math.
  * 
- * @param lhs Devisor
- * @param rhs Dividend
+ * @param lhs Devisor.
+ * @param rhs Dividend.
  * 
  * @return A `binary` of length `N` contains the quotient of the division.
  */
