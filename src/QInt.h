@@ -97,7 +97,7 @@ public:
 	std::string print_QInt(const int& base);
 
 	/***********************************************
-	 * BASE CONVERTION FUNCTIONS
+	 * BASE CONVERSION FUNCTIONS
 	 * These should be self-explanatory
 	 * 
 	 * @param value The value you want to convert.
