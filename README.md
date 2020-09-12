@@ -66,13 +66,13 @@ Ngoài ra, bạn có thể dùng extension git của Visual Studio, clone repo n
 Để config CMake dưới dạng Release, mình có viết một script giúp thực hiện công việc này, ta chỉ cần chạy lệnh sau
 
 ```sh
-$ ./consig.sh Release
+$ ./config.sh Release
 ```
 
 Hoặc bạn muốn config dưới dạng Debug thì bạn chỉ cần thay `Release` thành `Debug` là ổn.
 
 ```sh
-$ ./consig.sh Debug
+$ ./config.sh Debug
 ```
 
 Sau khi CMake đã được config thành công và ta có thể bắt đầu build chương trình. Để build chương trình, ta chạy lệnh
