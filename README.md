@@ -39,11 +39,13 @@ Bài làm được chia thành hai thư mục chính:
 1. Thư mục `src/` chứa mã nguồn của QInt và QFloat
 2. Thư mục `tests/` chứa testcase của QInt và QFloat tương ứng
 
-### Biên dịch và chạy chương trình
+## Biên dịch và chạy chương trình
 
-**Note:** Chương trình đã được chạy thử nghiệm tốt trên Ubuntu 20.04.
+_Chương trình đã được chạy thử nghiệm tốt trên Ubuntu 20.04._
 
-#### Yêu cầu tiên quyết
+### Yêu cầu tiên quyết
+
+#### Linux
 
 Để có thể biên dịch và chạy chương trình một cách ổn thỏa nhất, trên Linux, một người cần có những chương trình sau đây:
 
@@ -51,11 +53,15 @@ Bài làm được chia thành hai thư mục chính:
 2. Make
 3. Compiler cho C++ tương thích với C++11
 
-Nếu bạn dùng Windows và sử dụng Visual Studio, bạn chỉ cần cho hết các file trong thư mục `src/`vào một project và chạy project một cách bình thường. Ngoài ra bạn có thể dùng extension git của Visual Studio, clone repo này về và mở dưới dạng một project cmake và để Visual Studio làm mọi việc còn lại.
+#### Windows
 
-#### Biên dịch chương trình
+Nếu bạn dùng Windows và sử dụng Visual Studio, bạn chỉ cần cho hết các file trong thư mục `src/`vào một project và chạy project một cách bình thường.
 
-Để biên dịch và chạy được chương trình, một người cần phải có phiên bản CMake từ 3.5 trở lên. Sau khi có được phiên bản CMake thỏa mãn, chúng ta cần phải config CMake để có thể tạo ra Makefile phù hợp.
+Ngoài ra, bạn có thể dùng extension git của Visual Studio, clone repo này về và mở dưới dạng một project CMake và để Visual Studio làm mọi việc còn lại.
+
+### Biên dịch chương trình
+
+Để biên dịch và chạy được chương trình, chúng ta cần phải config CMake để có thể tạo ra Makefile phù hợp.
 
 Để config CMake dưới dạng Release, mình có viết một script giúp thực hiện công việc này, ta chỉ cần chạy lệnh sau
 
@@ -77,7 +83,7 @@ $ make
 
 Sau khi build xong, bạn có thể chạy chương trình bằng cách gọi file thực thi `CSC10005-Project1`.
 
-#### Chạy chương trình
+### Chạy chương trình
 
 Mặc định nếu bạn gọi file thực thi khi không kèm theo tham số, bạn sẽ thấy một dòng yêu cầu bạn nhập vào chế độ bạn mong muốn sử dụng (QInt hay QFloat). Sau đó, bạn có thể nhập lệnh.
 
@@ -89,7 +95,7 @@ Nếu bạn gọi file thực thi có kèm theo tham số, bạn sẽ phải có
 
 Trong đó, `type` là 1 nếu bạn chạy dưới dạng QInt, `type` là 2 nếu bạn mong muốn chạy dưới dạng QFloat.
 
-#### Test chương trình
+### Test chương trình
 
 Trong project này, mình có đính kèm theo thư mục `tests/` dùng để chứa các test được sử dụng trong lúc chấm, trải dài trên nhiều trường hợp cho cả hai kiểu QInt và QFloat.
 
@@ -105,7 +111,7 @@ Một số lưu ý trong quá trình test QFloat là chương trình mô phòng 
 
 Bạn có thể hiểu rằng nếu sai số của bạn không vượt quá một mức đủ nhỏ nào đó (ví dụ như sai số bài của bạn và kết quả mẫu không quá 0.0000000000000001 chẳng hạn) thì bạn sẽ coi như code của bạn cho ra đúng
 
-### Định dạng cấu trúc tập tin input và output
+## Định dạng cấu trúc tập tin input và output
 
 Dưới đây là định nghĩa cấu trúc tập tin input cho dạng QInt.
 
