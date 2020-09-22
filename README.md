@@ -90,7 +90,7 @@ Mặc định nếu bạn gọi file thực thi khi không kèm theo tham số, 
 Nếu bạn gọi file thực thi có kèm theo tham số, bạn sẽ phải có đủ 3 tham số file đầu vào file xuất kết quả và chế độ xử lý theo format:
 
 ```sh
-./CSC10005-Project1 <input_file> <output_file> <type>
+$ ./CSC10005-Project1 <input_file> <output_file> <type>
 ```
 
 Trong đó, `type` là 1 nếu bạn chạy dưới dạng QInt, `type` là 2 nếu bạn mong muốn chạy dưới dạng QFloat.
@@ -131,14 +131,14 @@ Dưới đây là định nghĩa cấu trúc tập tin output cho dạng QInt.
 
 **Ví dụ:**
 
-| Input file                             | Output file                                                  |
-| :------------------------------------- | ------------------------------------------------------------ |
-| 2 1111100011101010111 + 01101110110111 | 1111110001100001110                                          |
-| 2 11011011 * 010101111                 | 1001010110110101                                             |
-| 2 10 01101010111110111111              | 438207                                                       |
+| Input file                             | Output file                                                    |
+| :------------------------------------- | -------------------------------------------------------------- |
+| 2 1111100011101010111 + 01101110110111 | 1111110001100001110                                            |
+| 2 11011011 * 010101111                 | 1001010110110101                                               |
+| 2 10 01101010111110111111              | 438207                                                         |
 | 10 2 8793278316383117319               | 11101000001000000000000000101000111011001010010010000000000111 |
-| 16 85AF + 90BC                         | 1166B                                                        |
-| 10 5678 >> 2                           | 1419                                                         |
+| 16 85AF + 90BC                         | 1166B                                                          |
+| 10 5678 >> 2                           | 1419                                                           |
 
 **Định dạng tập tin input và output của QFloat tương tự như trên**
 
