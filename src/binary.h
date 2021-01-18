@@ -56,29 +56,29 @@ public:
     std::string to_string() const;
 
     /**
-	 * @brief Get two's complement of a binary represented in string.
-	 * 
-	 * @param value The value you want to get two's complement.
-	 */
+     * @brief Get two's complement of a binary represented in string.
+     * 
+     * @param value The value you want to get two's complement.
+     */
     binary<N> twos_complement() const;
 
     /**
-	 * @brief Test for value of a bit.
-	 * 
-	 * @param pos The position you want to test.
+     * @brief Test for value of a bit.
+     * 
+     * @param pos The position you want to test.
      * 
      * @return The value of the bit at the given position.
-	 */
+     */
     bool get(const size_t& pos) const;
     
     /**
-	 * @brief Set value for a bit.
-	 * 
-	 * @param pos The position you want to set.
+     * @brief Set value for a bit.
+     * 
+     * @param pos The position you want to set.
      * @param 
      * 
      * @return A `binary<N>` after setting bit at `pos` to `value`.
-	 */
+     */
     binary<N> set(const size_t& pos, const bool& value);
 
     /// A very difficult to understand operator

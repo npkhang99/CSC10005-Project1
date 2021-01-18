@@ -2,7 +2,7 @@
 
 // true when higher, false when lower
 bool compare_to_one(std::string value) {
-	return value[0] > '0';
+    return value[0] > '0';
 }
 
 std::string _two_power_minus(const int& exp) {
@@ -54,51 +54,51 @@ std::string _string_fraction_addition(std::string a, std::string b) {
 }
 
 std::string _string_mul_two(std::string value) {
-	size_t point = 0;
-	std::string tmp = "", res = "";
+    size_t point = 0;
+    std::string tmp = "", res = "";
 
-	for (size_t i = 0; i < value.length(); ++i) {
-		if (value[i] == '.') {
-			point = i;
-			continue;
-		}
-		tmp += value[i];
-	}
+    for (size_t i = 0; i < value.length(); ++i) {
+        if (value[i] == '.') {
+            point = i;
+            continue;
+        }
+        tmp += value[i];
+    }
 
-	int r = 0, q = 0;
+    int r = 0, q = 0;
 
-	for (int i = tmp.length() - 1; i >= 0; i--) {
-		q = (tmp[i] - '0') * 2 + r;
-		r = q / 10;
-		q = q % 10;
-		res += (q + '0');
-	}
+    for (int i = tmp.length() - 1; i >= 0; i--) {
+        q = (tmp[i] - '0') * 2 + r;
+        r = q / 10;
+        q = q % 10;
+        res += (q + '0');
+    }
 
-	if (r != 0) {
-		res += (r + '0');
-		point++;
-	}
+    if (r != 0) {
+        res += (r + '0');
+        point++;
+    }
 
-	std::reverse(res.rbegin(), res.rend());
-	value = "";
+    std::reverse(res.rbegin(), res.rend());
+    value = "";
 
-	for (size_t i = 0; i < res.length();) {
-		if (i == point) {
-			value += '.';
-			point = -1;
-			continue;
-		}
-		value += res[i];
-		i++;
-	}
+    for (size_t i = 0; i < res.length();) {
+        if (i == point) {
+            value += '.';
+            point = -1;
+            continue;
+        }
+        value += res[i];
+        i++;
+    }
 
-	return value;
+    return value;
 }
 
 std::string _string_minus_one(std::string value) { // value > 1
-	remove_leading_zeroes(value);
+    remove_leading_zeroes(value);
     value[0] = '0';
-	return value;
+    return value;
 }
 
 std::string _mantissa_padding(std::string st) {
@@ -171,19 +171,19 @@ std::string QFloat::dec_to_bin(std::string value) {
     remove_leading_zeroes(s);
     s = QInt::dec_to_bin(s);
 
-	std::string res = "";
+    std::string res = "";
     value.erase(value.begin(), value.begin() + value.find('.'));
     value = '0' + value;
-	for (int i = _FP_LENGTH - 1; i >= 0; i--) {
-		if (compare_to_one(_string_mul_two(value))) {
-			value = _string_minus_one(_string_mul_two(value));
-			res += "1";
-		}
-		else {
-			value = _string_mul_two(value);
-			res += "0";
-		}
-	}
+    for (int i = _FP_LENGTH - 1; i >= 0; i--) {
+        if (compare_to_one(_string_mul_two(value))) {
+            value = _string_minus_one(_string_mul_two(value));
+            res += "1";
+        }
+        else {
+            value = _string_mul_two(value);
+            res += "0";
+        }
+    }
 
     res = s + '.' + res;
 
@@ -208,7 +208,7 @@ std::string QFloat::dec_to_bin(std::string value) {
 
     exp += bias;
 
-	return (sign ? '1' : '0') + std::bitset<_FP_EXPONENT>(exp).to_string() + _mantissa_padding(res.substr(pos + 1, _FP_MANTISSA));
+    return (sign ? '1' : '0') + std::bitset<_FP_EXPONENT>(exp).to_string() + _mantissa_padding(res.substr(pos + 1, _FP_MANTISSA));
 }
 
 std::string QFloat::bin_to_dec(std::string value) {
