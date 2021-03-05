@@ -49,7 +49,7 @@ _Chương trình đã được chạy thử nghiệm tốt trên Ubuntu 20.04._
 
 Để có thể biên dịch và chạy chương trình một cách ổn thỏa nhất, trên Linux, một người cần có những chương trình sau đây:
 
-1. CMake (thấp nhất 2.8.10)
+1. CMake
 2. Make
 3. Compiler cho C++ tương thích với C++11
 
