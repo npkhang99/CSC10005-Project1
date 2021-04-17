@@ -1,6 +1,6 @@
 #include "util.h"
 
-int compare(const std::string& a, const std::string& b) {
+int compare(const std::string &a, const std::string &b) {
     if (a.length() > b.length()) {
         return 1;
     }
@@ -21,19 +21,19 @@ int compare(const std::string& a, const std::string& b) {
     return 0;
 }
 
-void remove_leading_zeroes(std::string& st) {
+void remove_leading_zeroes(std::string &st) {
     while (st.length() > 1 && st[0] == '0') {
         st.erase(st.begin());
     }
 }
 
-void remove_trailing_zeroes(std::string& st) {
+void remove_trailing_zeroes(std::string &st) {
     while (st.length() > 1 && st.back() == '0') {
         st.erase(--st.end());
     }
 }
 
-bool divide(std::string& dividend, std::string divisor) {
+bool divide(std::string &dividend, std::string divisor) {
     if (compare(dividend, divisor) < 0) {
         return 0;
     }
@@ -57,7 +57,7 @@ bool divide(std::string& dividend, std::string divisor) {
     return 1;
 }
 
-bool string_is_zero(const std::string& st) {
+bool string_is_zero(const std::string &st) {
     for (int i = 0; i < (int) st.length(); i++) {
         if (st[i] != '0') {
             return false;

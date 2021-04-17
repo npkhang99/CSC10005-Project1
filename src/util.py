@@ -2,20 +2,22 @@
 # mainly for testing stuffs
 # required bitstring to run
 
-#!/usr/env/bin
+# !/usr/env/bin
 
 import random
 from bitstring import Bits
 
-def gen_random_binary(k = 128):
-    return "".join(i for i in random.choices("01", k = k))
+
+def gen_random_binary(k=128):
+    return "".join(i for i in random.choices("01", k=k))
+
 
 def gen_qint_conversion():
     bases = [2, 10]
     for f in bases:
         for t in bases:
             if f != t:
-                a = Bits(bin = gen_random_binary())
+                a = Bits(bin=gen_random_binary())
 
                 if f == 2:
                     a = a.bin
@@ -26,13 +28,14 @@ def gen_qint_conversion():
 
                 print("{} {} {}".format(f, t, a))
 
+
 def gen_qint_operation():
     operators = ['+', '-', '*', '/']
     bases = [2, 10]
     for operator in operators:
         base = bases[random.randint(0, len(bases) - 1)]
-        a = Bits(bin = gen_random_binary())
-        b = Bits(bin = gen_random_binary())
+        a = Bits(bin=gen_random_binary())
+        b = Bits(bin=gen_random_binary())
 
         if base == 2:
             a = a.bin
@@ -60,9 +63,11 @@ def gen_qint_operation():
     #     a = a.hex.upper()
     # print('{} ~{}'.format(base, a))
 
+
 def main():
     gen_qint_conversion()
     gen_qint_operation()
+
 
 if __name__ == '__main__':
     main()

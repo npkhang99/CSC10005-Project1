@@ -17,8 +17,8 @@
  * 
  * @return A `binary` with size of 2*N+1 contains the result of the unsigned multiplication.
  */
-template <size_t N>
-binary<2 * N + 1> unsigned_multiply(const binary<N>& lhs, const binary<N>& rhs) {
+template<size_t N>
+binary<2 * N + 1> unsigned_multiply(const binary<N> &lhs, const binary<N> &rhs) {
     binary<N + 1> m('0' + lhs.to_string());
     binary<N> q(rhs);
     binary<1 + N> ca;
@@ -49,21 +49,21 @@ binary<2 * N + 1> unsigned_multiply(const binary<N>& lhs, const binary<N>& rhs) 
  * @return A value describing the relation between `a` and `b`, if the return value is `-1` it means that a < b,
  *         if the return value is `1` then a > b, otherwise the return value is `0`.
  */
-int compare(const std::string& a, const std::string& b);
+int compare(const std::string &a, const std::string &b);
 
 /**
  * @brief   Remove leading 0s from a string.
  * 
  * @param st The string you want to remove leading 0s.
  */
-void remove_leading_zeroes(std::string& st);
+void remove_leading_zeroes(std::string &st);
 
 /**
  * @brief Remove trailing 0s from a string.
  * 
  * @param st The string you want to remove trailing 0s.
  */
-void remove_trailing_zeroes(std::string& st);
+void remove_trailing_zeroes(std::string &st);
 
 /**
  * @brief Divide binaries on string.
@@ -76,7 +76,7 @@ void remove_trailing_zeroes(std::string& st);
  * 
  * @return `0` if dividend is less than divisor, else return `1` and overrides the remainder to the dividend.
  */
-bool divide(std::string& dividend, std::string divisor);
+bool divide(std::string &dividend, std::string divisor);
 
 /**
  * @brief Check to see whether the string only contains `0`s.
@@ -85,7 +85,7 @@ bool divide(std::string& dividend, std::string divisor);
  * 
  * @return `true` if `st` only contains `0`s, otherwise, `false`.
  */
-bool string_is_zero(const std::string& st);
+bool string_is_zero(const std::string &st);
 
 /**
  * @brief Perforn division like 3rd grade math.
@@ -95,8 +95,8 @@ bool string_is_zero(const std::string& st);
  * 
  * @return A `binary` of length `N` contains the quotient of the division.
  */
-template <size_t N>
-binary<N> true_division(const binary<N>& lhs, const binary<N>& rhs) {
+template<size_t N>
+binary<N> true_division(const binary<N> &lhs, const binary<N> &rhs) {
     binary<N> ans;
     std::string dividend = lhs.to_string();
     std::string divisor = rhs.to_string();

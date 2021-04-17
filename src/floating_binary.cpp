@@ -9,14 +9,8 @@ floating_binary::floating_binary(const std::string &st) {
     bits = std::bitset<_FP_LENGTH>(st);
 }
 
-std::string floating_binary::_mantissa_padding(std::string st, const int& _length) const {
-    while ((int) st.length() < _length) {
-        st += '0';
-    }
-    return st;
-}
-
-void floating_binary::_align_radix_point(binary<_FP_EXPONENT + 1>& exp, binary<_FP_MANTISSA + 1>& mantissa, const unsigned long long& delta) const {
+void floating_binary::_align_radix_point(binary<_FP_EXPONENT + 1> &exp, binary<_FP_MANTISSA + 1> &mantissa,
+                                         const unsigned long long &delta) const {
     exp = exp + binary<_FP_EXPONENT + 1>(delta);
     for (unsigned long long i = 0; i < delta; i++) {
         mantissa = mantissa >> 1;
@@ -28,28 +22,29 @@ std::string floating_binary::to_string() const {
     return bits.to_string();
 }
 
-bool floating_binary::get(const size_t& pos) const {
+bool floating_binary::get(const size_t &pos) const {
     return bits.test(pos);
 }
 
-floating_binary floating_binary::set(const size_t& pos, const bool& value) {
+floating_binary floating_binary::set(const size_t &pos, const bool &value) {
     bits.set(pos, value);
     return *this;
 }
 
-floating_binary& floating_binary::operator=(const floating_binary& rhs) {
+floating_binary &floating_binary::operator=(const floating_binary &rhs) {
     bits = std::bitset<_FP_LENGTH>(rhs.to_string());
     return *this;
 }
 
-floating_binary floating_binary::operator+(const floating_binary& rhs) const {
-    if (get(_FP_LENGTH - 1) != rhs.get(_FP_LENGTH - 1) && to_string().substr(1, _FP_LENGTH - 1) == rhs.to_string().substr(1, _FP_LENGTH - 1)) {
+floating_binary floating_binary::operator+(const floating_binary &rhs) const {
+    if (get(_FP_LENGTH - 1) != rhs.get(_FP_LENGTH - 1) &&
+        to_string().substr(1, _FP_LENGTH - 1) == rhs.to_string().substr(1, _FP_LENGTH - 1)) {
         return floating_binary();
     }
 
     binary<_FP_EXPONENT + 1> exp_lhs('0' + to_string().substr(1, _FP_EXPONENT));
     binary<_FP_MANTISSA + 1> mantissa_lhs('1' + to_string().substr(_FP_EXPONENT + 1, _FP_MANTISSA));
-    
+
     binary<_FP_EXPONENT + 1> exp_rhs('0' + rhs.to_string().substr(1, _FP_EXPONENT));
     binary<_FP_MANTISSA + 1> mantissa_rhs('1' + rhs.to_string().substr(_FP_EXPONENT + 1, _FP_MANTISSA));
 
@@ -70,16 +65,14 @@ floating_binary floating_binary::operator+(const floating_binary& rhs) const {
     if (bits[_FP_LENGTH - 1] == 1) {
         mantissa_lhs = ~mantissa_lhs + binary<_FP_MANTISSA + 1>(1);
         sign_mantissa_lhs = binary<_FP_MANTISSA + 2>('1' + mantissa_lhs.to_string());
-    }
-    else {
+    } else {
         sign_mantissa_lhs = binary<_FP_MANTISSA + 2>('0' + mantissa_lhs.to_string());
     }
 
     if (rhs.bits[_FP_LENGTH - 1] == 1) {
         mantissa_rhs = ~mantissa_rhs + binary<_FP_MANTISSA + 1>(1);
         sign_mantissa_rhs = binary<_FP_MANTISSA + 2>('1' + mantissa_rhs.to_string());
-    }
-    else {
+    } else {
         sign_mantissa_rhs = binary<_FP_MANTISSA + 2>('0' + mantissa_rhs.to_string());
     }
 
@@ -89,8 +82,7 @@ floating_binary floating_binary::operator+(const floating_binary& rhs) const {
 
     if (sign_mantissa_lhs.get(_FP_MANTISSA + 1) == sign_mantissa_rhs.get(_FP_MANTISSA + 1)) {
         sign_bit = sign_mantissa_lhs.get(_FP_MANTISSA + 1);
-    }
-    else if (sum_mantissa < binary<_FP_MANTISSA + 2>(0)) {
+    } else if (sum_mantissa < binary<_FP_MANTISSA + 2>(0)) {
         sum_mantissa = ~sum_mantissa + binary<_FP_MANTISSA + 2>(1);
     }
 
@@ -107,11 +99,11 @@ floating_binary floating_binary::operator+(const floating_binary& rhs) const {
     return floating_binary((sign_bit ? '1' : '0') + exp.to_string() + sum_mantissa.to_string().substr(2, _FP_MANTISSA));
 }
 
-floating_binary floating_binary::operator-(const floating_binary& rhs) const {
+floating_binary floating_binary::operator-(const floating_binary &rhs) const {
     return *this + floating_binary(rhs).set(_FP_LENGTH - 1, 1 - rhs.get(_FP_LENGTH - 1));
 }
 
-floating_binary floating_binary::operator*(const floating_binary& rhs) const {
+floating_binary floating_binary::operator*(const floating_binary &rhs) const {
     if (bits == std::bitset<_FP_LENGTH>(0) || rhs.bits == std::bitset<_FP_LENGTH>(0)) {
         return floating_binary();
     }
@@ -120,11 +112,11 @@ floating_binary floating_binary::operator*(const floating_binary& rhs) const {
     binary<_FP_EXPONENT> mantissa_rhs(rhs.to_string().substr(1 + _FP_EXPONENT, _FP_MANTISSA));
 
     unsigned long long bias = (int) pow(2, _FP_EXPONENT - 1) - 1;
-    
+
     unsigned long long lhs_exp = std::bitset<_FP_EXPONENT>(to_string().substr(1, _FP_EXPONENT)).to_ullong();
     unsigned long long rhs_exp = std::bitset<_FP_EXPONENT>(rhs.to_string().substr(1, _FP_EXPONENT)).to_ullong();
     binary<_FP_EXPONENT> exp(std::bitset<_FP_EXPONENT>(lhs_exp + rhs_exp - bias));
-    
+
     binary<_FP_MANTISSA + 1> lhs_mantissa('1' + to_string().substr(_FP_EXPONENT + 1, _FP_MANTISSA));
     binary<_FP_MANTISSA + 1> rhs_mantissa('1' + rhs.to_string().substr(_FP_EXPONENT + 1, _FP_MANTISSA));
 
@@ -140,12 +132,12 @@ floating_binary floating_binary::operator*(const floating_binary& rhs) const {
         exp = exp - 1;
     }
 
-    bool sign_bit = get(_FP_LENGTH - 1) ^ rhs.get(_FP_LENGTH - 1);
+    bool sign_bit = get(_FP_LENGTH - 1) ^rhs.get(_FP_LENGTH - 1);
 
     return floating_binary((sign_bit ? "1" : "0") + exp.to_string() + mantissa.to_string().substr(3, _FP_MANTISSA));
 }
 
-floating_binary floating_binary::operator/(const floating_binary& rhs) const {
+floating_binary floating_binary::operator/(const floating_binary &rhs) const {
     if (bits == std::bitset<_FP_LENGTH>(0)) {
         return floating_binary();
     }
@@ -158,11 +150,11 @@ floating_binary floating_binary::operator/(const floating_binary& rhs) const {
     binary<_FP_EXPONENT> mantissa_rhs(rhs.to_string().substr(1 + _FP_EXPONENT, _FP_MANTISSA));
 
     unsigned long long bias = (int) pow(2, _FP_EXPONENT - 1) - 1;
-    
+
     unsigned long long lhs_exp = std::bitset<_FP_EXPONENT>(to_string().substr(1, _FP_EXPONENT)).to_ullong();
     unsigned long long rhs_exp = std::bitset<_FP_EXPONENT>(rhs.to_string().substr(1, _FP_EXPONENT)).to_ullong();
     binary<_FP_EXPONENT> exp(std::bitset<_FP_EXPONENT>(lhs_exp - rhs_exp + bias));
-    
+
     binary<_FP_MANTISSA + 1> lhs_mantissa('1' + to_string().substr(_FP_EXPONENT + 1, _FP_MANTISSA));
     binary<_FP_MANTISSA + 1> rhs_mantissa('1' + rhs.to_string().substr(_FP_EXPONENT + 1, _FP_MANTISSA));
 
@@ -173,7 +165,7 @@ floating_binary floating_binary::operator/(const floating_binary& rhs) const {
         exp = exp - 1;
     }
 
-    bool sign_bit = get(_FP_LENGTH - 1) ^ rhs.get(_FP_LENGTH - 1);
+    bool sign_bit = get(_FP_LENGTH - 1) ^rhs.get(_FP_LENGTH - 1);
 
     return floating_binary((sign_bit ? "1" : "0") + exp.to_string() + mantissa.to_string().substr(1, _FP_MANTISSA));
 }

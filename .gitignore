@@ -20,3 +20,5 @@ CTestTestfile.cmake
 _deps
 build
 *ninja*
+.idea
+cmake*

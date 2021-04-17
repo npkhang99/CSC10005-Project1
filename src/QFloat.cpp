@@ -5,7 +5,7 @@ bool compare_to_one(std::string value) {
     return value[0] > '0';
 }
 
-std::string _two_power_minus(const int& exp) {
+std::string QFloat::utility::_two_power_minus(const int &exp) {
     QInt p("1", 10);
 
     for (int i = 0; i < exp; i++) {
@@ -24,7 +24,7 @@ std::string _two_power_minus(const int& exp) {
     return answer;
 }
 
-std::string _string_fraction_addition(std::string a, std::string b) {
+std::string QFloat::utility::_string_fraction_addition(std::string a, std::string b) {
     while (a.length() < b.length()) {
         a += '0';
     }
@@ -53,7 +53,7 @@ std::string _string_fraction_addition(std::string a, std::string b) {
     return "0." + std::string(t - 2, '0') + ans.print_QInt(10);
 }
 
-std::string _string_mul_two(std::string value) {
+std::string QFloat::utility::_string_mul_two(std::string value) {
     size_t point = 0;
     std::string tmp = "", res = "";
 
@@ -95,13 +95,13 @@ std::string _string_mul_two(std::string value) {
     return value;
 }
 
-std::string _string_minus_one(std::string value) { // value > 1
+std::string QFloat::utility::_string_minus_one(std::string value) { // value > 1
     remove_leading_zeroes(value);
     value[0] = '0';
     return value;
 }
 
-std::string _mantissa_padding(std::string st) {
+std::string QFloat::utility::_mantissa_padding(std::string st) {
     while (st.length() < _FP_MANTISSA) {
         st = st + '0';
     }
@@ -112,20 +112,19 @@ QFloat::QFloat() {
     n = floating_binary(binary<_FP_LENGTH>(0).to_string());
 }
 
-QFloat::QFloat(const std::string& value, const int& base) {
+QFloat::QFloat(const std::string &value, const int &base) {
     if (base == 2) {
         n = floating_binary(value);
-    }
-    else {
+    } else {
         n = floating_binary(QFloat::dec_to_bin(value));
     }
 }
 
-QFloat::QFloat(const floating_binary& o) {
+QFloat::QFloat(const floating_binary &o) {
     n = o;
 }
 
-std::string QFloat::to_string(const int& base) const {
+std::string QFloat::to_string(const int &base) const {
     // std::cerr << n.to_string() << std::endl;
     if (base == 10) {
         return QFloat::bin_to_dec(n.to_string());
@@ -133,7 +132,7 @@ std::string QFloat::to_string(const int& base) const {
     return n.to_string();
 }
 
-QFloat& QFloat::operator=(const QFloat& rhs) {
+QFloat &QFloat::operator=(const QFloat &rhs) {
     n = rhs.n;
     return *this;
 }
@@ -175,12 +174,11 @@ std::string QFloat::dec_to_bin(std::string value) {
     value.erase(value.begin(), value.begin() + value.find('.'));
     value = '0' + value;
     for (int i = _FP_LENGTH - 1; i >= 0; i--) {
-        if (compare_to_one(_string_mul_two(value))) {
-            value = _string_minus_one(_string_mul_two(value));
+        if (compare_to_one(utility::_string_mul_two(value))) {
+            value = utility::_string_minus_one(utility::_string_mul_two(value));
             res += "1";
-        }
-        else {
-            value = _string_mul_two(value);
+        } else {
+            value = utility::_string_mul_two(value);
             res += "0";
         }
     }
@@ -208,7 +206,8 @@ std::string QFloat::dec_to_bin(std::string value) {
 
     exp += bias;
 
-    return (sign ? '1' : '0') + std::bitset<_FP_EXPONENT>(exp).to_string() + _mantissa_padding(res.substr(pos + 1, _FP_MANTISSA));
+    return (sign ? '1' : '0') + std::bitset<_FP_EXPONENT>(exp).to_string() +
+           utility::_mantissa_padding(res.substr(pos + 1, _FP_MANTISSA));
 }
 
 std::string QFloat::bin_to_dec(std::string value) {
@@ -230,7 +229,7 @@ std::string QFloat::bin_to_dec(std::string value) {
     std::string man = "0.0";
     for (int i = 2; i < (int) mantissa.length(); i++) {
         if (mantissa[i] == '1') {
-            man = _string_fraction_addition(man, _two_power_minus(i - 1));
+            man = utility::_string_fraction_addition(man, utility::_two_power_minus(i - 1));
         }
     }
 
@@ -261,7 +260,7 @@ std::string QFloat::bin_to_dec(std::string value) {
     std::string fraction = "0.0";
     for (int i = 0; i < (int) frac.length(); i++) {
         if (frac[i] == '1') {
-            fraction = _string_fraction_addition(fraction, _two_power_minus(i + 1));
+            fraction = utility::_string_fraction_addition(fraction, utility::_two_power_minus(i + 1));
         }
     }
 
@@ -271,18 +270,18 @@ std::string QFloat::bin_to_dec(std::string value) {
     return dec + fraction.substr(1, fraction.length() - 1);
 }
 
-QFloat QFloat::operator+(const QFloat& rhs) const {
+QFloat QFloat::operator+(const QFloat &rhs) const {
     return n + rhs.n;
 }
 
-QFloat QFloat::operator-(const QFloat& rhs) const {
+QFloat QFloat::operator-(const QFloat &rhs) const {
     return n - rhs.n;
 }
 
-QFloat QFloat::operator*(const QFloat& rhs) const {
+QFloat QFloat::operator*(const QFloat &rhs) const {
     return n * rhs.n;
 }
 
-QFloat QFloat::operator/(const QFloat& rhs) const {
+QFloat QFloat::operator/(const QFloat &rhs) const {
     return n / rhs.n;
 }
